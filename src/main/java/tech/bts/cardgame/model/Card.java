@@ -8,9 +8,9 @@ public class Card {
 
     //TODO: ensure fields only have values from 1-8
 
-    public Card() {
-        this.magicPoint = 1;
-        this.strengthPoint = 1;
+    public Card(int magicPoint, int strengthPoint) {
+        this.magicPoint = magicPoint;
+        this.strengthPoint = strengthPoint;
         this.intelligencePoint = 10 - this.magicPoint - this.strengthPoint;
     }
 

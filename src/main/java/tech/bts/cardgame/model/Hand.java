@@ -3,15 +3,15 @@ package tech.bts.cardgame.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainDeck {
+public class Hand {
 
     private List<Card> deck;
 
-    public MainDeck(){
+    public Hand(){
         this.deck = new ArrayList<>();
     }
 
-    public MainDeck(List<Card> cards) {
+    public Hand(List<Card> cards) {
         this.deck = cards; }
 
     public List<Card> getCards() {
