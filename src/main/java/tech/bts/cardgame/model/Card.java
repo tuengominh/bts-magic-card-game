@@ -8,10 +8,6 @@ public class Card {
 
     //TODO: ensure fields only have values from 1-8
 
-    //private int[] magics = {1,2,3,4,5,6,7,8};
-    //private int[] strengths = {1,2,3,4,5,6,7,8};
-    //private int[] intelligences = {1,2,3,4,5,6,7,8};
-
     //TODO: ensure total points of 10
 
     public Card() {

@@ -14,18 +14,24 @@ public class OriginalDeck {
 
     //TODO: generate full deck of cards
 
-    public void cardGenerator(){
+    public void deckGenerator(){
         Card currentCard = new Card();
+
         for (int i = 0; i <= deckSize; i ++) {
             Card nextCard = new Card.Next(currentCard).generate();
             if (nextCard.getMagicPoint() < 8) {
-                Card nextCard2 = new Card.Next(nextCard).setMagicPoint().generate();
+                nextCard.Next(nextCard).setMagicPoint().generate();
             } else if (nextCard.getStrengthPoint() < 8) {
-                Card nextCard3 = new Card.Next(nextCard).setStrengthPoint().generate();
+                nextCard.Next(nextCard).setStrengthPoint().generate();
             } else {
-                Card nextCard4 = new Card.Next(nextCard).setIntelligencePoint().generate();
+                nextCard.Next(nextCard).setIntelligencePoint().generate();
             }
+            this.originalDeck.add(nextCard);
         }
     }
+
+    //TODO: remove 5 initial cards for each player (move to PlayerDeck)
+
+    //TODO: put discarded cards to bottom of the deck (get from PlayerDeck)
 
 }
