@@ -8,8 +8,6 @@ public class Card {
 
     //TODO: ensure fields only have values from 1-8
 
-    //TODO: ensure total points of 10
-
     public Card() {
         this.magicPoint = 1;
         this.strengthPoint = 1;
@@ -32,32 +30,15 @@ public class Card {
         return intelligencePoint;
     }
 
-    //TODO: ++ each parameters, 1-8
-    public static class Next {
-        private Card card;
+    public void setMagicPoint(int magicPoint) {
+        this.magicPoint = magicPoint;
+    }
 
-        public Next(Card currentCard) {
-            this.card = currentCard;
-        }
+    public void setStrengthPoint(int strengthPoint) {
+        this.strengthPoint = strengthPoint;
+    }
 
-        public Next setMagicPoint() {
-
-            this.card.magicPoint = Math.min(this.card.magicPoint + 1,8);
-            return this;
-        }
-
-        public Next setStrengthPoint() {
-            this.card.strengthPoint = Math.min(this.card.strengthPoint + 1,8);
-            return this;
-        }
-
-        public Next setIntelligencePoint() {
-            this.card.intelligencePoint = Math.min(this.card.intelligencePoint + 1,8);
-            return this;
-        }
-
-        public Card generate() {
-            return this.card;
-        }
+    public void setIntelligencePoint(int intelligencePoint) {
+        this.intelligencePoint = intelligencePoint;
     }
 }
