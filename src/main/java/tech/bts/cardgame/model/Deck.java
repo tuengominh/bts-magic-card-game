@@ -11,4 +11,14 @@ public class Deck {
         this.deck = new ArrayList<>();
     }
 
+    public Deck(List<Card> cards) {
+        this.deck = cards; }
+
+    public List<Card> getCards() {
+        return deck;
+    }
+
+    public void add(Card card) {
+        deck.add(card);
+    }
 }
