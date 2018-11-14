@@ -23,6 +23,8 @@ public class Deck {
         deck.remove(card);
     }
 
+    // toString
+
     public Deck deckGenerator() {
 
         for (int magicPoint = 1; magicPoint <= 8; magicPoint++) {

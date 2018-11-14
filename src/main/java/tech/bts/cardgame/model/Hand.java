@@ -20,4 +20,19 @@ public class Hand {
         cards.remove(card);
     }
 
+    public Card calculate() {
+
+        int magic = 0;
+        int strength = 0;
+        int intelligence = 0;
+
+        for (Card card : cards) {
+            magic += card.getMagicPoint();
+            strength += card.getStrengthPoint();
+            intelligence += card.getIntelligencePoint();
+        }
+
+        return new Card(magic, strength, intelligence);
+    }
+
 }
