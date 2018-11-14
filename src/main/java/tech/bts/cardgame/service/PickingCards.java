@@ -1,6 +1,24 @@
 package tech.bts.cardgame.service;
 
-public class PickingCards {
+import tech.bts.cardgame.model.Card;
+import tech.bts.cardgame.model.Deck;
+import tech.bts.cardgame.model.Hand;
 
-    //TODO: add pickup method
+import java.util.List;
+
+public class PickingCards {
+    private Deck deck;
+
+    public PickingCards(){
+        this.deck = new Deck().deckGenerator();
+    }
+
+    //TODO: initialize 5 random cards???
+
+    // TODO: add pickup method
+
+    public void pickCards(Card card, Hand player) {
+        player.keep(card);
+        deck.remove(card);
+    }
 }

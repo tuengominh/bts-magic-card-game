@@ -19,7 +19,7 @@ public class Deck {
         return deck;
     }
 
-    public void deckGenerator() {
+    public Deck deckGenerator() {
 
         for (int magicPoint = 1; magicPoint <= 8; magicPoint++) {
             for (int strengthPoint = 1; strengthPoint <= 8; strengthPoint++) {
@@ -28,7 +28,10 @@ public class Deck {
                     if (card.getIntelligencePoint() <= 0) { deck.remove(card); }
             }
         }
+        return this;
     }
+
+    //TODO: empty deck
 
     public void add (Card card){ deck.add(card); }
 
