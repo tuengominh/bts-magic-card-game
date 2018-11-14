@@ -6,8 +6,6 @@ public class Card {
     private int strengthPoint;
     private int intelligencePoint;
 
-    //TODO: ensure fields only have values from 1-8
-
     public Card(int magicPoint, int strengthPoint) {
         this.magicPoint = magicPoint;
         this.strengthPoint = strengthPoint;
