@@ -1,29 +1,23 @@
 package tech.bts.cardgame.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Hand {
 
-    private List<Card> hand;
-
-    public Hand() {
-        this.hand = new ArrayList<>();
-    }
+    private List<Card> cards;
 
     public Hand(List<Card> cards) {
-        this.hand = cards;
-    }
-
-    public void keep(Card card) {
-        hand.add(card);
-    }
-
-    public void discard(Card card) {
-        hand.remove(card);
+        this.cards = cards;
     }
 
     public List<Card> getHand() {
-        return hand;
+        return cards;
     }
+
+    public void keep (Card card){ cards.add(card); }
+
+    public void discard (Card card){
+        cards.remove(card);
+    }
+
 }
