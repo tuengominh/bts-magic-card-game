@@ -2,5 +2,5 @@ package tech.bts.cardgame.service;
 
 public class PickingCards {
 
-    //TODO: add build, discard & getTotalCards methods
+    //TODO: add pickup method
 }

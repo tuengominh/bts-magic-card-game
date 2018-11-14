@@ -5,24 +5,39 @@ import java.util.List;
 
 public class Hand {
 
-    private List<Card> deck;
+    private List<Card> player1;
+    private List<Card> player2;
 
     public Hand(){
-        this.deck = new ArrayList<>();
+        this.player1 = new ArrayList<>();
+        this.player2 = new ArrayList<>();
     }
 
-    public Hand(List<Card> cards) {
-        this.deck = cards; }
+    //TODO: initialize 5 random cards
 
-    public List<Card> getCards() {
-        return deck;
+    //TODO: make sure total size of 3
+
+    public List<Card> getPlayer1() {
+        return player1;
     }
 
-    public void add(Card card) {
-        deck.add(card);
+    public List<Card> getPlayer2() {
+        return player2;
     }
 
-    public void remove(Card card) {
-        deck.remove(card);
+    public void keepPlayer1(Card card) {
+        player1.add(card);
+    }
+
+    public void keepPlayer2(Card card) {
+        player2.add(card);
+    }
+
+    public void discardPlayer1(Card card) {
+        player1.remove(card);
+    }
+
+    public void discardPlayer2(Card card) {
+        player2.remove(card);
     }
 }
