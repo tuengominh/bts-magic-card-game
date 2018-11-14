@@ -18,6 +18,7 @@ public class Example {
       System.out.println(deck.get(4));
       System.out.println(deck.get(7));
       System.out.println(deck.get(8));
+      System.out.println(deck.get(15));
       System.out.println(deck.get(35));
     }
 }

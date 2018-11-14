@@ -19,12 +19,6 @@ public class Deck {
         return deck;
     }
 
-    public void add (Card card){ deck.add(card); }
-
-    public void remove (Card card){
-        deck.remove(card);
-    }
-
     public void deckGenerator() {
 
         for (int magicPoint = 1; magicPoint <= 8; magicPoint++) {
@@ -34,5 +28,11 @@ public class Deck {
                     if (card.getIntelligencePoint() <= 0) { deck.remove(card); }
             }
         }
+    }
+
+    public void add (Card card){ deck.add(card); }
+
+    public void remove (Card card){
+        deck.remove(card);
     }
 }
