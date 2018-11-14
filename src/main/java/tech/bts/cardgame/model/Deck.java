@@ -28,9 +28,11 @@ public class Deck {
     public Deck deckGenerator() {
 
         for (int magicPoint = 1; magicPoint <= 8; magicPoint++) {
+
+            //nested loop
             for (int strengthPoint = 1; strengthPoint <= (9 - magicPoint); strengthPoint++) {
-                    Card card = new Card(magicPoint, strengthPoint);
-                    deck.add(card);
+                int intelligencePoint = 10 - magicPoint - strengthPoint;
+                deck.add(new Card(magicPoint, strengthPoint, intelligencePoint));
             }
         }
         return this;

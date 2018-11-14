@@ -6,10 +6,10 @@ public class Card {
     private int strengthPoint;
     private int intelligencePoint;
 
-    public Card(int magicPoint, int strengthPoint) {
+    public Card(int magicPoint, int strengthPoint, int intelligencePoint) {
         this.magicPoint = magicPoint;
         this.strengthPoint = strengthPoint;
-        this.intelligencePoint = 10 - this.magicPoint - this.strengthPoint;
+        this.intelligencePoint = intelligencePoint;
     }
 
     public String toString(){
