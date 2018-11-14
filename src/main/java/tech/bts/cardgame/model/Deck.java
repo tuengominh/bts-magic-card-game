@@ -28,8 +28,10 @@ public class Deck {
     public void deckGenerator() {
 
         for (int magicPoint = 1; magicPoint <= 8; magicPoint++) {
-            for (int strengthPoint = 1; strengthPoint <=8; strengthPoint++) {
-                deck.add(new Card(magicPoint, strengthPoint));
+            for (int strengthPoint = 1; strengthPoint <= 8; strengthPoint++) {
+                    Card card = new Card(magicPoint, strengthPoint);
+                    deck.add(card);
+                    if (card.getIntelligencePoint() <= 0) { deck.remove(card); }
             }
         }
     }

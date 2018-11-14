@@ -14,7 +14,10 @@ public class Example {
 
       List<Card> deck = d.getCards();
       System.out.println(deck.size());
+      System.out.println(deck.get(1));
       System.out.println(deck.get(4));
-      System.out.println(deck.get(10));
+      System.out.println(deck.get(7));
+      System.out.println(deck.get(8));
+      System.out.println(deck.get(35));
     }
 }
