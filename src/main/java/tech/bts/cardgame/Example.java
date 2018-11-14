@@ -30,5 +30,6 @@ public class Example {
         Player player2 = new Player("player 2");
 
         Game game = new Game(player1, player2, d);
+        game.play();
     }
 }

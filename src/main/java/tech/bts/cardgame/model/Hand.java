@@ -7,6 +7,7 @@ public class Hand {
     private List<Card> cards;
 
     public Hand(List<Card> cards) {
+
         this.cards = cards;
     }
 
@@ -34,5 +35,4 @@ public class Hand {
 
         return new Card(magic, strength, intelligence);
     }
-
 }

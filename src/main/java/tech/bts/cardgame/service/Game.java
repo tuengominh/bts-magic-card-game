@@ -38,9 +38,21 @@ public class Game {
 
         // 3 - Fight with the cards
         int result = compare(hand1, hand2);
-        System.out.println(result);
+
+        System.out.println("hand 1: " + hand1.calculate().toString());
+        System.out.println("hand 2: " + hand2.calculate().toString());
 
         // print the name of the winner
+        System.out.println(result);
+
+        if (result < 0) {
+            System.out.println("The winner is: " + player2.getName());
+        } else if (result > 0) {
+            System.out.println("The winner is: " + player1.getName());
+        } else {
+            System.out.println("It's a tie!");
+        }
+
     }
 
     private int compare(Hand hand1, Hand hand2) {
