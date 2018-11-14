@@ -11,13 +11,9 @@ public class Hand {
         this.hand = new ArrayList<>();
     }
 
-    //TODO: initialize 5 random cards???
-
     public Hand(List<Card> cards) {
         this.hand = cards;
     }
-
-    //TODO: make sure total size of 3???
 
     public void keep(Card card) {
         hand.add(card);

@@ -4,8 +4,6 @@ import tech.bts.cardgame.model.Card;
 import tech.bts.cardgame.model.Deck;
 import tech.bts.cardgame.model.Hand;
 
-import java.util.List;
-
 public class PickingCards {
     private Deck deck;
 
@@ -15,7 +13,7 @@ public class PickingCards {
 
     //TODO: initialize 5 random cards???
 
-    // TODO: add pickup method
+    //TODO: add pickup method and make sure total size of 3???
 
     public void pickCards(Card card, Hand player) {
         player.keep(card);

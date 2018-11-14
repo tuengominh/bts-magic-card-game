@@ -2,6 +2,7 @@ package tech.bts.cardgame;
 
 import tech.bts.cardgame.model.Card;
 import tech.bts.cardgame.model.Deck;
+import tech.bts.cardgame.model.Hand;
 
 import java.util.List;
 
@@ -21,4 +22,7 @@ public class Example {
       System.out.println(deck.get(15));
       System.out.println(deck.get(35));
     }
+
+    Hand player1 = new Hand();
+    Hand player2 = new Hand();
 }

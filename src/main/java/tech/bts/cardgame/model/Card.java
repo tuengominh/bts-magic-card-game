@@ -28,15 +28,4 @@ public class Card {
         return intelligencePoint;
     }
 
-    public void setMagicPoint(int magicPoint) {
-        this.magicPoint = magicPoint;
-    }
-
-    public void setStrengthPoint(int strengthPoint) {
-        this.strengthPoint = strengthPoint;
-    }
-
-    public void setIntelligencePoint(int intelligencePoint) {
-        this.intelligencePoint = intelligencePoint;
-    }
 }
