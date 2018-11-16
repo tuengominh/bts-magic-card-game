@@ -20,7 +20,4 @@ public class Player {
     public String getName() {
         return name;
     }
-
-    //public void discard(int discardQuant) {
-    //}
 }
