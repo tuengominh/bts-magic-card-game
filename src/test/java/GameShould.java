@@ -1,10 +1,13 @@
 import org.junit.Test;
 import tech.bts.cardgame.model.Deck;
 import tech.bts.cardgame.service.Game;
+import tech.bts.cardgame.service.JoiningNotAllowedException;
 
 import java.util.Arrays;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
 /**
  * Creating a game:
@@ -39,7 +42,9 @@ public class GameShould {
 
         Game g = new Game(new Deck());
 
-        assertEquals("OPEN", g.getState());
+        //assertEquals("OPEN", g.getState());
+
+        assertThat(g.getState(), is("OPEN"));
     }
 
     @Test
@@ -49,7 +54,10 @@ public class GameShould {
 
         g.join("john");
 
-        assertEquals(Arrays.asList("john"), g.getPlayerNames());
+        //assertEquals(Arrays.asList("john"), g.getPlayerNames());
+
+        assertThat(g.getPlayerNames(), is(Arrays.asList("john")));
+        assertThat(g.getState(), is("OPEN"));
     }
 
     @Test
@@ -60,7 +68,37 @@ public class GameShould {
         g.join("john");
         g.join("peter");
 
-        assertEquals("PLAYING", g.getState());
+        assertThat(g.getState(), is("PLAYING"));
 
+    }
+
+    @Test
+    public void not_allow_joining_if_not_open_long() {
+
+        //tests that expect fail/exception/error
+
+        Game g = new Game(new Deck());
+
+        g.join("john");
+        g.join("peter");
+
+        try {
+            g.join("mary");
+            fail();
+
+        } catch (JoiningNotAllowedException e) {
+        }
+    }
+
+    @Test(expected = JoiningNotAllowedException.class)
+    public void not_allow_joining_if_not_open_short() {
+
+        //tests that expect fail/exception/error
+
+        Game g = new Game(new Deck());
+
+        g.join("john");
+        g.join("peter");
+        g.join("mary");
     }
 }

@@ -32,7 +32,16 @@ public class Game {
     }
 
     public void join(String username) {
+
+        if (!state.equals("OPEN")) {
+            throw new JoiningNotAllowedException();
+        }
+
         usernames.add(username);
+
+        if(usernames.size() == 2) {
+            this.state = "PLAYING";
+        }
     }
 
     private int compare(Hand hand1, Hand hand2) {
