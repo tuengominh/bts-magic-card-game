@@ -1,47 +1,77 @@
 package tech.bts.cardgame.service;
 
+import tech.bts.cardgame.exception.CannotPick2CardsInARowException;
+import tech.bts.cardgame.exception.JoiningNotAllowedException;
+import tech.bts.cardgame.exception.PlayerNotInTheGameException;
 import tech.bts.cardgame.model.Card;
 import tech.bts.cardgame.model.Deck;
 import tech.bts.cardgame.model.Hand;
-import tech.bts.cardgame.model.Player;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Game {
 
+    public enum State { OPEN, PLAYING, FINISHED }
+
     private Deck deck;
-    private String state;
+    private State state;
     private List<String> usernames;
+    private Map<String, Card> pickedCardbyUserName;
 
     public final static int DEAL_SIZE = 5;
     public final static int HAND_SIZE = 3;
 
     public Game(Deck deck) {
         this.deck = deck;
-        this.state = "OPEN";
+        this.state = State.OPEN;
         this.usernames = new ArrayList<>();
+        this.pickedCardbyUserName = new HashMap<>();
     }
 
-    public String getState() {
+    public State getState() {
         return state;
-    }
-
-    public List<String> getPlayerNames() {
-        return usernames;
     }
 
     public void join(String username) {
 
-        if (!state.equals("OPEN")) {
+        if (!state.equals(State.OPEN)) {
             throw new JoiningNotAllowedException();
         }
 
         usernames.add(username);
 
         if(usernames.size() == 2) {
-            this.state = "PLAYING";
+            this.state = State.PLAYING;
         }
+    }
+
+    public List<String> getPlayerNames() {
+        return usernames;
+    }
+
+    public Card pickCard(String username) {
+
+        if (!usernames.contains(username)) {
+            throw new PlayerNotInTheGameException();
+        }
+
+        Card pickedCard = pickedCardbyUserName.get(username);
+        if (pickedCard != null) {
+            throw new CannotPick2CardsInARowException();
+        }
+
+        Card newPickedCard = deck.pickCard();
+
+        pickedCardbyUserName.put(username, newPickedCard);
+
+        return newPickedCard;
+    }
+
+    public void discard(String username) {
+        pickedCardbyUserName.remove(username);
     }
 
     private int compare(Hand hand1, Hand hand2) {

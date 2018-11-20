@@ -1,7 +1,5 @@
-package tech.bts.cardgame.service;
+package tech.bts.cardgame.exception;
 
 public class JoiningNotAllowedException extends RuntimeException{
-
-
 
 }

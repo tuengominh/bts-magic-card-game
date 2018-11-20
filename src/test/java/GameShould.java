@@ -1,13 +1,15 @@
 import org.junit.Test;
+import tech.bts.cardgame.model.Card;
 import tech.bts.cardgame.model.Deck;
+import tech.bts.cardgame.exception.CannotPick2CardsInARowException;
 import tech.bts.cardgame.service.Game;
-import tech.bts.cardgame.service.JoiningNotAllowedException;
+import tech.bts.cardgame.exception.JoiningNotAllowedException;
+import tech.bts.cardgame.exception.PlayerNotInTheGameException;
 
 import java.util.Arrays;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.*;
 
 /**
  * Creating a game:
@@ -22,14 +24,15 @@ import static org.junit.Assert.fail;
  *
  * Picking cards:
  * - When the game is PLAYING, any player that joined the game can pick a card.
- * - After picking a card, a player must keep it or discard it.
+ * - TODO: picking is only allowed while playing.
+ * - After picking a card, a player must keep it or discard it before picking another one.
  * - A player can only discard 2 cards (i.e. must pick 3 cards).
  *
  * The battle (point calculation):
  * - When the 2 players have picked 3 cards, the winner of that round is calculated:
- *   - Each player adds all magics, all strengths and all intelligences
- *   - Totals of each category is compared between players
- *   - Player who wins in 2 categories earns a point (there may be no winner)
+ * - Each player adds all magics, all strengths and all intelligences
+ * - Totals of each category is compared between players
+ * - Player who wins in 2 categories earns a point (there may be no winner)
  *
  * - After the points are calculated, a new battle starts (players pick cards again)
  * - If there are less than 10 cards in the deck, the game changes to state FINISHED
@@ -44,7 +47,7 @@ public class GameShould {
 
         //assertEquals("OPEN", g.getState());
 
-        assertThat(g.getState(), is("OPEN"));
+        assertThat(g.getState(), is(Game.State.OPEN));
     }
 
     @Test
@@ -57,7 +60,7 @@ public class GameShould {
         //assertEquals(Arrays.asList("john"), g.getPlayerNames());
 
         assertThat(g.getPlayerNames(), is(Arrays.asList("john")));
-        assertThat(g.getState(), is("OPEN"));
+        assertThat(g.getState(), is(Game.State.OPEN));
     }
 
     @Test
@@ -68,7 +71,7 @@ public class GameShould {
         g.join("john");
         g.join("peter");
 
-        assertThat(g.getState(), is("PLAYING"));
+        assertThat(g.getState(), is(Game.State.PLAYING));
 
     }
 
@@ -100,5 +103,74 @@ public class GameShould {
         g.join("john");
         g.join("peter");
         g.join("mary");
+    }
+
+    @Test
+    public void allow_picking_cards_when_playing() {
+
+        Card c1 = new Card(1,1,8);
+        Deck d = new Deck();
+        d.add(c1);
+
+        Game g = new Game(d);
+
+        g.join("john");
+        g.join("peter");
+
+        Card c = g.pickCard("john");
+
+        //assertNotEquals(null, c);
+
+        assertThat(c,notNullValue());
+        assertThat(c1,is(c));
+    }
+
+    @Test (expected = PlayerNotInTheGameException.class)
+    public void not_allow_picking_cards_if_not_join() {
+
+        Game g = new Game(new Deck());
+
+        g.join("john");
+        g.join("peter");
+
+        g.pickCard("mary");
+    }
+
+    @Test (expected = CannotPick2CardsInARowException.class)
+    public void not_allow_picking_2_cards_in_a_row() {
+
+        Deck d = new Deck();
+        d.add(new Card(1,1,8));
+        d.add(new Card(2,1,7));
+        d.add(new Card(2,3,5));
+
+        Game g = new Game(d);
+        g.join("john");
+        g.join("peter");
+
+        Card c1 = g.pickCard("john");
+        Card c2 = g.pickCard("peter");
+        Card c3 = g.pickCard("john");
+    }
+
+    @Test
+    public void allow_picking_if_previous_card_was_discarded() {
+
+        Deck d = new Deck();
+        Card c1 = new Card(1,1,8);
+        d.add(c1);
+        Card c2 = new Card(2,3,5);
+        d.add(c2);
+
+        Game g = new Game(d);
+        g.join("john");
+        g.join("peter");
+
+        Card pc1 = g.pickCard("john");
+        g.discard("john");
+        Card pc2 = g.pickCard("john");
+
+        assertThat(pc1, is(c2));
+        assertThat(pc2, is(c1));
     }
 }
