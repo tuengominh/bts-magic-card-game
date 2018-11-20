@@ -123,12 +123,14 @@ public class Game {
         Hand hand = getPlayerHand(username);
 
         if (pickedCard != null) {
-            if(hand.handSize() < HAND_SIZE) {
-                Hand hand1 = hand.keep(pickedCard);
-                players.put(username,hand1);
-            } else {
+
+            if(hand.handSize() == HAND_SIZE) {
                 throw new HandSizeLimitExceededException();
+            } else {
+                Hand hand1 = hand.keep(pickedCard);
+                players.put(username, hand1);
             }
+
         } else {
             throw new CannotKeepWithoutPreviouslyPickingException();
         }
