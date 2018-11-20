@@ -63,7 +63,7 @@ public class Game {
         }
 
         players.put(username, new Hand());
-        discardedCounterbyUserName.put(username,0);
+        discardedCounterbyUserName.put(username, 0);
 
         if (players.size() == MAXIMUM_PLAYER_NUM) {
             this.state = State.PLAYING;
@@ -139,17 +139,21 @@ public class Game {
     }
 
     public void fillHand(String username) {
+
         int discardCounter = discardedCounterbyUserName.get(username);
         Hand hand = getPlayerHand(username);
 
         if(discardCounter == MAXIMUM_DISCARD) {
-            if(hand.handSize() < HAND_SIZE) {
-                for(int i = 0; i < HAND_SIZE - hand.handSize(); i++)
-                pickCard(username);
-                keep(username);
-            } else {
+
+            if(hand.handSize() == HAND_SIZE) {
                 throw new HandSizeLimitExceededException();
+
+            } else {
+                for(int i = 0; i < HAND_SIZE - hand.handSize(); i++)
+                    pickCard(username);
+                keep(username);
             }
+
         } else {
             throw new HaventDiscard2CardsException();
         }
