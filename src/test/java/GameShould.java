@@ -2,7 +2,6 @@ import org.junit.Test;
 import tech.bts.cardgame.exception.*;
 import tech.bts.cardgame.model.Card;
 import tech.bts.cardgame.model.Deck;
-import tech.bts.cardgame.model.Hand;
 import tech.bts.cardgame.service.Game;
 
 import java.util.*;
@@ -242,14 +241,10 @@ public class GameShould {
         g.join("peter");
 
         g.pickCard("john");
-        g.keep("john");
-        g.pickCard("john");
-        g.keep("john");
-        g.pickCard("john");
-        g.keep("john");
-
         g.discard("john");
+        g.pickCard("john");
         g.discard("john");
+        g.pickCard("john");
         g.discard("john");
 
     }
@@ -317,32 +312,6 @@ public class GameShould {
         g.discard("john");
 
         g.fillHand("john");
-    }
-
-    @Test (expected = CannotBattleIfHandsNotFilledException.class)
-    public void not_allow_battle_if_hands_not_filled() {
-        Deck d = new Deck();
-        d.generate();
-
-        Game g = new Game(d);
-        g.join("john");
-        g.join("peter");
-
-        g.pickCard("john");
-        g.keep("john");
-
-        g.pickCard("peter");
-        g.keep("peter");
-
-        g.pickCard("john");
-        g.keep("john");
-
-        g.pickCard("peter");
-        g.discard("peter");
-
-        g.fillHand("john");
-
-        g.battle(g.getPlayerHand("john"), g.getPlayerHand("peter"));
     }
 
     @Test
@@ -414,59 +383,6 @@ public class GameShould {
         g.discard("john");
 
         assertThat(g.getState(), is(Game.State.FINISHED));
-    }
-
-    @Test (expected = CannotPickCardsIfNotPlayingException.class)
-    public void not_allow_picking_if_game_is_finished() {
-
-        Deck d = new Deck();
-        d.add(new Card(2,6,2));
-        d.add(new Card(3,5,2));
-        d.add(new Card(5,1,4));
-        d.add(new Card(5,2,3));
-        d.add(new Card(8,1,1));
-        d.add(new Card(4,3,3));
-        d.add(new Card(2,7,1));
-
-        Game g = new Game(d);
-        g.join("john");
-        g.join("peter");
-
-        g.pickCard("john");
-        g.keep("john");
-
-        g.pickCard("peter");
-        g.keep("peter");
-
-        g.pickCard("john");
-        g.keep("john");
-
-        g.pickCard("peter");
-        g.keep("peter");
-
-        g.pickCard("john");
-        g.keep("john");
-
-        g.pickCard("peter");
-        g.keep("peter");
-
-        g.battle(g.getPlayerHand("john"), g.getPlayerHand("peter"));
-
-        g.nextBattle();
-
-        g.pickCard("john");
-    }
-
-    @Test
-    public void shuffles_deck() {
-
-        Deck d = new Deck();
-        d.generate();
-
-        Card c1 = d.getDeck().get(0);
-        Card c2 = d.shuffle().getDeck().get(0);
-
-        assertFalse(c1 == c2);
     }
 
 }
