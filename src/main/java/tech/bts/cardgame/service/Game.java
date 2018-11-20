@@ -206,7 +206,6 @@ public class Game {
         } else if (result > 0) {
             players.get(0).setPoint(1);
         }
-
     }
 
     public void nextBattle() {

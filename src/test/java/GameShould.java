@@ -388,6 +388,7 @@ public class GameShould {
 
         g.battle(hand1, hand2);
 
+        assertThat(g.getPoints("john"), is(0));
         assertThat(g.getPoints("peter"), is(1));
     }
 
@@ -434,6 +435,52 @@ public class GameShould {
         g.battle(hand1, hand2);
 
         assertThat(g.getState(), is(Game.State.FINISHED));
+    }
+
+    @Test
+    public void refresh_hands_when_starting_next_battle_but_keep_points() {
+        Deck d = new Deck();
+        d.add(new Card(3,5,2));
+        d.add(new Card(5,1,4));
+        d.add(new Card(5,2,3));
+        d.add(new Card(8,1,1));
+        d.add(new Card(4,3,3));
+        d.add(new Card(2,7,1));
+
+        Game g = new Game(d);
+        g.join("john");
+        g.join("peter");
+
+        g.pickCard("john");
+        g.keep("john");
+
+        g.pickCard("peter");
+        g.keep("peter");
+
+        g.pickCard("john");
+        g.keep("john");
+
+        g.pickCard("peter");
+        g.keep("peter");
+
+        g.pickCard("john");
+        g.keep("john");
+
+        g.pickCard("peter");
+        g.keep("peter");
+
+        Hand hand1 = g.getPlayerHand("john");
+        Hand hand2 = g.getPlayerHand("peter");
+
+        g.battle(hand1, hand2);
+
+        g.nextBattle();
+
+        assertEquals(new HashMap<>(), g.getPlayerHand("john"));
+        assertEquals(new HashMap<>(), g.getPlayerHand("peter"));
+        assertThat(g.getPoints("john"), is(0));
+        assertThat(g.getPoints("peter"), is(1));
+
     }
 
 }
