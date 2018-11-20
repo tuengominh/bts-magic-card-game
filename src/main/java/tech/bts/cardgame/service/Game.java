@@ -24,6 +24,7 @@ public class Game {
     public final static int HAND_SIZE = 3;
     public final static int MAXIMUM_DISCARD = 2;
     public final static int MAXIMUM_PLAYER_NUM = 2;
+    public final static int MINIMUM_DECK_SIZE = 10;
 
     public Game(Deck deck) {
         this.deck = deck;
@@ -169,41 +170,40 @@ public class Game {
 
     public void battle (String username1, String username2) {
 
-        if(deck.deckSize() < 10) {
+        if(deck.deckSize() < MINIMUM_DECK_SIZE) {
             this.state = State.FINISHED;
         }
 
-        int points1 = 0;
-        int points2 = 0;
         Hand hand1 = getPlayerHand(username1);
         Hand hand2 = getPlayerHand(username2);
+        int points1 = 0;
+        int points2 = 0;
 
-        if(hand1.handSize() < HAND_SIZE || hand2.handSize() < HAND_SIZE) {
+        if(hand1.handSize() < HAND_SIZE) {
+            fillHand(username1);
+        } else if (hand2.handSize() < HAND_SIZE) {
+            fillHand(username2);
+        }
 
-            throw new CannotBattleIfHandsNotFilledException();
+        Card accumulateCard1 = hand1.calculate();
+        Card accumulateCard2 = hand2.calculate();
 
-        } else {
+        if (accumulateCard1.getMagicPoint() > accumulateCard2.getMagicPoint()) {
+            points1++;
+        } else if (accumulateCard1.getMagicPoint() < accumulateCard2.getMagicPoint()) {
+            points2++;
+        }
 
-            Card accumulateCard1 = hand1.calculate();
-            Card accumulateCard2 = hand2.calculate();
+        if (accumulateCard1.getStrengthPoint() > accumulateCard2.getStrengthPoint()) {
+            points1++;
+        } else if (accumulateCard1.getStrengthPoint() < accumulateCard2.getStrengthPoint()) {
+            points2++;
+        }
 
-            if (accumulateCard1.getMagicPoint() > accumulateCard2.getMagicPoint()) {
-                points1++;
-            } else if (accumulateCard1.getMagicPoint() < accumulateCard2.getMagicPoint()) {
-                points2++;
-            }
-
-            if (accumulateCard1.getStrengthPoint() > accumulateCard2.getStrengthPoint()) {
-                points1++;
-            } else if (accumulateCard1.getStrengthPoint() < accumulateCard2.getStrengthPoint()) {
-                points2++;
-            }
-
-            if (accumulateCard1.getIntelligencePoint() > accumulateCard2.getIntelligencePoint()) {
-                points1++;
-            } else if (accumulateCard1.getIntelligencePoint() < accumulateCard2.getIntelligencePoint()) {
-                points2++;
-            }
+        if (accumulateCard1.getIntelligencePoint() > accumulateCard2.getIntelligencePoint()) {
+            points1++;
+        } else if (accumulateCard1.getIntelligencePoint() < accumulateCard2.getIntelligencePoint()) {
+            points2++;
         }
 
         int result = points1 - points2;
