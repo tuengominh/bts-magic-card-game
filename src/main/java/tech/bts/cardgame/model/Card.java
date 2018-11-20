@@ -13,7 +13,7 @@ public class Card {
     }
 
     public String toString(){
-        return "This card has " + this.magicPoint + " magic points, " + this.strengthPoint + " strength points, " + this.intelligencePoint + " intelligence points.";
+        return "Card: " + this.magicPoint + " magic points, " + this.strengthPoint + " strength points, " + this.intelligencePoint + " intelligence points.";
     }
 
     public int getMagicPoint() {

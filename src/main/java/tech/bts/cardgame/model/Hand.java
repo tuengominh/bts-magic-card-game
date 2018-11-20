@@ -37,7 +37,8 @@ public class Hand {
         result += "This hand includes " + this.hand.size() + " cards: ";
 
         for (int i = 0; i < hand.size(); i++) {
-            result += hand.get(i).toString();
+            result += "\n" + hand.get(i).toString();
+            result += " ";
         }
 
         return result;

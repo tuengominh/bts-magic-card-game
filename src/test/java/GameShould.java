@@ -200,6 +200,8 @@ public class GameShould {
     public void allow_picking_if_previous_card_was_kept() {
 
         Deck d = new Deck();
+        d.add(new Card(3,5,2));
+        d.add(new Card(5,1,4));
         Card c1 = new Card(1,1,8);
         d.add(c1);
         Card c2 = new Card(2,3,5);
@@ -212,6 +214,11 @@ public class GameShould {
         Card pc1 = g.pickCard("john");
         g.keep("john");
         Card pc2 = g.pickCard("peter");
+        g.keep("peter");
+
+        g.pickCard("john");
+        g.keep("john");
+        g.pickCard("peter");
         g.keep("peter");
 
         assertThat(pc1, is(c2));
