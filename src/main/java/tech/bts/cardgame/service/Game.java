@@ -126,13 +126,14 @@ public class Game {
             if(hand.handSize() < HAND_SIZE) {
                 Hand hand1 = hand.keep(pickedCard);
                 players.put(username,hand1);
-                pickedCardbyUserName.remove(username);
             } else {
                 throw new HandSizeLimitExceededException();
             }
         } else {
             throw new CannotKeepWithoutPreviouslyPickingException();
         }
+
+        pickedCardbyUserName.remove(username);
     }
 
     public void fillHand(String username) {
@@ -186,6 +187,10 @@ public class Game {
 
         }
 
+        if(deck.deckSize() < 10) {
+            this.state = State.FINISHED;
+        }
+
         int result = points1 - points2;
 
         if (result < 0) {
@@ -195,9 +200,6 @@ public class Game {
             players.get(0).setPoint(1);
         }
 
-        if(deck.deckSize() < 10) {
-            this.state = State.FINISHED;
-        }
     }
 
     public void nextBattle() {

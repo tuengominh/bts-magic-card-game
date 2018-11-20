@@ -314,6 +314,11 @@ public class GameShould {
         g.fillHand("john");
     }
 
+    @Test (expected = CannotBattleIfHandsNotFilledException.class)
+    public void not_allow_battle_if_hands_not_filled() {
+
+    }
+
     @Test
     public void give_points_to_winner() {
         Deck d = new Deck();
@@ -374,18 +379,27 @@ public class GameShould {
         g.join("peter");
 
         g.pickCard("john");
-        g.discard("john");
+        g.keep("john");
 
         g.pickCard("peter");
-        g.discard("peter");
+        g.keep("peter");
 
         g.pickCard("john");
-        g.discard("john");
+        g.keep("john");
 
         g.pickCard("peter");
-        g.discard("peter");
+        g.keep("peter");
 
-        System.out.println(d.deckSize());
+        g.pickCard("john");
+        g.keep("john");
+
+        g.pickCard("peter");
+        g.keep("peter");
+
+        Hand hand1 = g.getPlayerHand("john");
+        Hand hand2 = g.getPlayerHand("peter");
+
+        g.battle(hand1, hand2);
 
         assertThat(g.getState(), is(Game.State.FINISHED));
     }
