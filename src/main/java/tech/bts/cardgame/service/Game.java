@@ -104,7 +104,7 @@ public class Game {
 
         if (pickedCard != null) {
 
-            if(discardCounter == MAXIMUM_DISCARD) {
+            if(discardCounter >= MAXIMUM_DISCARD) {
                 throw new CannotDiscard3CardsException();
             } else {
                 discardCounter++;
@@ -124,7 +124,7 @@ public class Game {
 
         if (pickedCard != null) {
 
-            if(hand.handSize() == HAND_SIZE) {
+            if(hand.handSize() >= HAND_SIZE) {
                 throw new HandSizeLimitExceededException();
             } else {
                 Hand hand1 = hand.keep(pickedCard);
@@ -143,9 +143,9 @@ public class Game {
         int discardCounter = discardedCounterbyUserName.get(username);
         Hand hand = getPlayerHand(username);
 
-        if(discardCounter == MAXIMUM_DISCARD) {
+        if(discardCounter >= MAXIMUM_DISCARD) {
 
-            if(hand.handSize() == HAND_SIZE) {
+            if(hand.handSize() >= HAND_SIZE) {
                 throw new HandSizeLimitExceededException();
 
             } else {
@@ -156,6 +156,7 @@ public class Game {
             }
 
         } else {
+
             throw new HaventDiscard2CardsException();
         }
     }
