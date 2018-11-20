@@ -2,6 +2,7 @@ import org.junit.Test;
 import tech.bts.cardgame.exception.*;
 import tech.bts.cardgame.model.Card;
 import tech.bts.cardgame.model.Deck;
+import tech.bts.cardgame.model.Hand;
 import tech.bts.cardgame.service.Game;
 
 import java.util.*;
@@ -346,7 +347,10 @@ public class GameShould {
         g.pickCard("peter");
         g.keep("peter");
 
-        g.battle(g.getPlayerHand("john"), g.getPlayerHand("peter"));
+        Hand hand1 = g.getPlayerHand("john");
+        Hand hand2 = g.getPlayerHand("peter");
+
+        g.battle(hand1, hand2);
 
         assertThat(g.getPoints("peter"), is(1));
     }
@@ -374,13 +378,15 @@ public class GameShould {
         g.discard("john");
 
         g.pickCard("peter");
-        g.discard("john");
+        g.discard("peter");
 
         g.pickCard("john");
         g.discard("john");
 
         g.pickCard("peter");
-        g.discard("john");
+        g.discard("peter");
+
+        System.out.println(d.deckSize());
 
         assertThat(g.getState(), is(Game.State.FINISHED));
     }
