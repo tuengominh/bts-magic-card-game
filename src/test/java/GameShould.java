@@ -326,7 +326,29 @@ public class GameShould {
 
     @Test (expected = CannotBattleIfHandsNotFilledException.class)
     public void not_allow_battle_if_hands_not_filled() {
+        Deck d = new Deck();
+        d.generate();
 
+        Game g = new Game(d);
+        g.join("john");
+        g.join("peter");
+
+        g.pickCard("john");
+        g.discard("john");
+        g.pickCard("peter");
+        g.discard("peter");
+
+        g.pickCard("john");
+        g.discard("john");
+        g.pickCard("peter");
+        g.discard("peter");
+
+        g.fillHand("john");
+
+        Hand hand1 = g.getPlayerHand("john");
+        Hand hand2 = g.getPlayerHand("peter");
+
+        g.battle(hand1, hand2);
     }
 
     @Test
