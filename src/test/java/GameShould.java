@@ -381,8 +381,8 @@ public class GameShould {
 
         g.battle("john", "peter");
 
-        assertThat(g.getPoints("john"), is(0));
-        assertThat(g.getPoints("peter"), is(1));
+        assertThat(g.getBattlePoint("john"), is(0));
+        assertThat(g.getBattlePoint("peter"), is(1));
     }
 
     @Test
@@ -428,7 +428,7 @@ public class GameShould {
     }
 
     @Test
-    public void refresh_hands_when_starting_next_battle_but_store_points_for_each_player() {
+    public void refresh_hands_and_battle_points_when_starting_next_battle_but_keep_total_game_points() {
         Deck d = new Deck();
         d.add(new Card(3,5,2));
         d.add(new Card(5,1,4));
@@ -465,7 +465,10 @@ public class GameShould {
 
         assertEquals(0, g.getPlayerHand("john").handSize());
         assertEquals(0, g.getPlayerHand("peter").handSize());
-        assertThat(g.getPlayer1Point(), is(0));
-        assertThat(g.getPlayer2Point(), is(1));
+
+        assertThat(g.getBattlePoint("john"), is(0));
+        assertThat(g.getBattlePoint("peter"), is(0));
+        assertThat(g.getTotalPoints("john"), is(0));
+        assertThat(g.getTotalPoints("peter"), is(1));
     }
 }
