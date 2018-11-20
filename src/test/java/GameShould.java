@@ -273,8 +273,7 @@ public class GameShould {
 
     @Test
     public void automatically_fill_hand_after_discarding_2_cards() {
-        //For example, if a player keeps 2 cards and discards 2 cards,
-        // their hand is automatically completed with 1 card more.
+
         Deck d = new Deck();
         d.generate();
 
