@@ -12,12 +12,11 @@ public class Deck {
         this.deck = new ArrayList<>();
     }
 
+    public void add (Card card){ deck.add(card); }
 
-    public List<Card> getCards() {
+    public List<Card> getDeck() {
         return deck;
     }
-
-    public void add (Card card){ deck.add(card); }
 
     public void remove (Card card){
         deck.remove(card);
@@ -25,7 +24,7 @@ public class Deck {
 
     // toString
 
-    public Deck deckGenerator() {
+    public Deck generate() {
 
         for (int magicPoint = 1; magicPoint <= 8; magicPoint++) {
 
@@ -38,7 +37,7 @@ public class Deck {
         return this;
     }
 
-    public void shuffle() {
+    public Deck shuffle() {
 
         Random random = new Random();
 
@@ -50,6 +49,8 @@ public class Deck {
             this.deck.set(i, card1);
             this.deck.set(random.nextInt(deck.size()), card2);
         }
+
+        return this;
     }
 
     public Card pickCard() {
@@ -58,12 +59,16 @@ public class Deck {
 
     public Hand deal(int dealSize) {
 
-        List<Card> cards = new ArrayList<>();
+        Hand cards = new Hand();
 
         for (int i = 1; i<=dealSize; i++) {
-            cards.add(this.pickCard());
+            cards.keep(this.pickCard());
         }
 
-        return new Hand(cards);
+        return cards;
+    }
+
+    public int deckSize() {
+        return this.deckSize();
     }
 }

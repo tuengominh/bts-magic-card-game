@@ -1,12 +1,11 @@
 import org.junit.Test;
+import tech.bts.cardgame.exception.*;
 import tech.bts.cardgame.model.Card;
 import tech.bts.cardgame.model.Deck;
-import tech.bts.cardgame.exception.CannotPick2CardsInARowException;
+import tech.bts.cardgame.model.Hand;
 import tech.bts.cardgame.service.Game;
-import tech.bts.cardgame.exception.JoiningNotAllowedException;
-import tech.bts.cardgame.exception.PlayerNotInTheGameException;
 
-import java.util.Arrays;
+import java.util.*;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
@@ -148,9 +147,8 @@ public class GameShould {
         g.join("john");
         g.join("peter");
 
-        Card c1 = g.pickCard("john");
-        Card c2 = g.pickCard("peter");
-        Card c3 = g.pickCard("john");
+        g.pickCard("john");
+        g.pickCard("john");
     }
 
     @Test
@@ -173,4 +171,302 @@ public class GameShould {
         assertThat(pc1, is(c2));
         assertThat(pc2, is(c1));
     }
+
+    @Test (expected = CannotPickCardsIfNotPlayingException.class)
+    public void not_allow_picking_if_not_playing() {
+
+        Deck d = new Deck();
+        d.add(new Card(1,1,8));
+
+        Game g = new Game(d);
+        g.join("john");
+
+        g.pickCard("john");
+    }
+
+    @Test (expected = CannotDiscardWithoutPreviouslyPickingException.class)
+    public void not_allow_discarding_without_previously_picking() {
+
+        Deck d = new Deck();
+        d.add(new Card(1,1,8));
+
+        Game g = new Game(d);
+        g.join("john");
+
+        g.discard("john");
+    }
+
+    @Test
+    public void allow_picking_if_previous_card_was_kept() {
+
+        Deck d = new Deck();
+        Card c1 = new Card(1,1,8);
+        d.add(c1);
+        Card c2 = new Card(2,3,5);
+        d.add(c2);
+
+        Game g = new Game(d);
+        g.join("john");
+        g.join("peter");
+
+        Card pc1 = g.pickCard("john");
+        g.keep("john");
+        Card pc2 = g.pickCard("peter");
+        g.keep("peter");
+
+        assertThat(pc1, is(c2));
+        assertThat(pc2, is(c1));
+
+    }
+
+    @Test (expected = CannotKeepWithoutPreviouslyPickingException.class)
+    public void not_allow_keeping_without_previously_picking() {
+
+        Deck d = new Deck();
+        d.add(new Card(1,1,8));
+
+        Game g = new Game(d);
+        g.join("john");
+
+        g.keep("john");
+    }
+
+    @Test (expected = CannotDiscard3CardsException.class)
+    public void not_allow_discarding_more_than_2_cards() {
+
+        Deck d = new Deck();
+        d.generate();
+
+        Game g = new Game(d);
+        g.join("john");
+        g.join("peter");
+
+        g.pickCard("john");
+        g.keep("john");
+        g.pickCard("john");
+        g.keep("john");
+        g.pickCard("john");
+        g.keep("john");
+
+        g.discard("john");
+        g.discard("john");
+        g.discard("john");
+
+    }
+
+    @Test (expected = HandSizeLimitExceededException.class)
+    public void not_allow_picking_if_keep_3_cards() {
+
+        Deck d = new Deck();
+        d.generate();
+
+        Game g = new Game(d);
+        g.join("john");
+        g.join("peter");
+
+        g.pickCard("john");
+        g.keep("john");
+        g.pickCard("john");
+        g.keep("john");
+        g.pickCard("john");
+        g.keep("john");
+
+        g.pickCard("john");
+
+    }
+
+    @Test
+    public void automatically_fill_hand_after_discarding_2_cards() {
+        //For example, if a player keeps 2 cards and discards 2 cards,
+        // their hand is automatically completed with 1 card more.
+        Deck d = new Deck();
+        d.generate();
+
+        Game g = new Game(d);
+        g.join("john");
+        g.join("peter");
+
+        g.pickCard("john");
+        g.keep("john");
+        g.pickCard("john");
+        g.keep("john");
+        g.pickCard("john");
+        g.discard("john");
+        g.pickCard("john");
+        g.discard("john");
+
+        g.fillHand("john");
+
+        assertThat(g.getPlayerHand("john").handSize(), is(3));
+    }
+
+    @Test (expected = HaventDiscard2CardsException.class)
+    public void not_auto_filling_hands_if_have_not_discard_twice() {
+        Deck d = new Deck();
+        d.generate();
+
+        Game g = new Game(d);
+        g.join("john");
+        g.join("peter");
+
+        g.pickCard("john");
+        g.keep("john");
+        g.pickCard("john");
+        g.keep("john");
+        g.pickCard("john");
+        g.discard("john");
+
+        g.fillHand("john");
+    }
+
+    @Test (expected = CannotBattleIfHandsNotFilledException.class)
+    public void not_allow_battle_if_hands_not_filled() {
+        Deck d = new Deck();
+        d.generate();
+
+        Game g = new Game(d);
+        g.join("john");
+        g.join("peter");
+
+        g.pickCard("john");
+        g.keep("john");
+
+        g.pickCard("peter");
+        g.keep("peter");
+
+        g.pickCard("john");
+        g.keep("john");
+
+        g.pickCard("peter");
+        g.discard("peter");
+
+        g.fillHand("john");
+
+        g.battle(g.getPlayerHand("john"), g.getPlayerHand("peter"));
+    }
+
+    @Test
+    public void give_points_to_winner() {
+        Deck d = new Deck();
+        d.add(new Card(3,5,2));
+        d.add(new Card(5,1,4));
+        d.add(new Card(5,2,3));
+        d.add(new Card(8,1,1));
+        d.add(new Card(4,3,3));
+        d.add(new Card(2,7,1));
+
+        Game g = new Game(d);
+        g.join("john");
+        g.join("peter");
+
+        g.pickCard("john");
+        g.keep("john");
+
+        g.pickCard("peter");
+        g.keep("peter");
+
+        g.pickCard("john");
+        g.keep("john");
+
+        g.pickCard("peter");
+        g.keep("peter");
+
+        g.pickCard("john");
+        g.keep("john");
+
+        g.pickCard("peter");
+        g.keep("peter");
+
+        g.battle(g.getPlayerHand("john"), g.getPlayerHand("peter"));
+
+        assertThat(g.getPoints("peter"), is(1));
+    }
+
+    @Test
+    public void finish_when_deck_has_less_than_10_cards(){
+        Deck d = new Deck();
+        d.add(new Card(1,1,8));
+        d.add(new Card(2,1,7));
+        d.add(new Card(2,3,5));
+        d.add(new Card(1,2,7));
+        d.add(new Card(2,6,2));
+        d.add(new Card(3,5,2));
+        d.add(new Card(5,1,4));
+        d.add(new Card(5,2,3));
+        d.add(new Card(8,1,1));
+        d.add(new Card(4,3,3));
+        d.add(new Card(2,7,1));
+
+        Game g = new Game(d);
+        g.join("john");
+        g.join("peter");
+
+        g.pickCard("john");
+        g.discard("john");
+
+        g.pickCard("peter");
+        g.discard("john");
+
+        g.pickCard("john");
+        g.discard("john");
+
+        g.pickCard("peter");
+        g.discard("john");
+
+        assertThat(g.getState(), is(Game.State.FINISHED));
+    }
+
+    @Test (expected = CannotPickCardsIfNotPlayingException.class)
+    public void not_allow_picking_if_game_is_finished() {
+
+        Deck d = new Deck();
+        d.add(new Card(2,6,2));
+        d.add(new Card(3,5,2));
+        d.add(new Card(5,1,4));
+        d.add(new Card(5,2,3));
+        d.add(new Card(8,1,1));
+        d.add(new Card(4,3,3));
+        d.add(new Card(2,7,1));
+
+        Game g = new Game(d);
+        g.join("john");
+        g.join("peter");
+
+        g.pickCard("john");
+        g.keep("john");
+
+        g.pickCard("peter");
+        g.keep("peter");
+
+        g.pickCard("john");
+        g.keep("john");
+
+        g.pickCard("peter");
+        g.keep("peter");
+
+        g.pickCard("john");
+        g.keep("john");
+
+        g.pickCard("peter");
+        g.keep("peter");
+
+        g.battle(g.getPlayerHand("john"), g.getPlayerHand("peter"));
+
+        g.nextBattle();
+
+        g.pickCard("john");
+    }
+
+    @Test
+    public void shuffles_deck() {
+
+        Deck d = new Deck();
+        d.generate();
+
+        Card c1 = d.getDeck().get(0);
+        Card c2 = d.shuffle().getDeck().get(0);
+
+        assertFalse(c1 == c2);
+    }
+
 }

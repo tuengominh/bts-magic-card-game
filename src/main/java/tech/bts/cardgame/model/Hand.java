@@ -1,24 +1,38 @@
 package tech.bts.cardgame.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Hand {
 
-    private List<Card> cards;
+    private List<Card> hand;
+    private int point;
 
-    public Hand(List<Card> cards) {
+    public Hand() {
 
-        this.cards = cards;
+        this.hand = new ArrayList<>();
+        this.point = 0;
     }
 
     public List<Card> getHand() {
-        return cards;
+        return hand;
     }
 
-    public void keep (Card card){ cards.add(card); }
+    public void setHand(List<Card> cards) {
+        this.hand = cards;
+    }
 
-    public void discard (Card card){
-        cards.remove(card);
+    public int getPoint() {
+        return point;
+    }
+
+    public void setPoint(int point) {
+        this.point += point;
+    }
+
+    public Hand keep (Card card){
+        hand.add(card);
+        return this;
     }
 
     public Card calculate() {
@@ -27,7 +41,7 @@ public class Hand {
         int strength = 0;
         int intelligence = 0;
 
-        for (Card card : cards) {
+        for (Card card : hand) {
             magic += card.getMagicPoint();
             strength += card.getStrengthPoint();
             intelligence += card.getIntelligencePoint();
@@ -35,4 +49,9 @@ public class Hand {
 
         return new Card(magic, strength, intelligence);
     }
+
+    public int handSize() {
+        return this.hand.size();
+    }
+
 }
