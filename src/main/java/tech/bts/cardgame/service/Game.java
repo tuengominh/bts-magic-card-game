@@ -104,19 +104,18 @@ public class Game {
 
         if (pickedCard != null) {
 
-            if(discardCounter < MAXIMUM_DISCARD) {
-                pickedCardbyUserName.remove(username);
-                int i = discardCounter++;
-                discardedCounterbyUserName.put(username, i);
-            } else {
+            if(discardCounter == MAXIMUM_DISCARD) {
                 throw new CannotDiscard3CardsException();
+            } else {
+                discardCounter++;
             }
 
         } else {
-
             throw new CannotDiscardWithoutPreviouslyPickingException();
-
         }
+
+        pickedCardbyUserName.remove(username);
+        discardedCounterbyUserName.put(username, discardCounter);
     }
 
     public void keep(String username) {
@@ -207,5 +206,6 @@ public class Game {
         this.players.put(getPlayerNames().get(1), new Hand());
         this.pickedCardbyUserName = new HashMap<>();
         this.discardedCounterbyUserName = new HashMap<>();
+
     }
 }
