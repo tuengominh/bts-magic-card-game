@@ -2,7 +2,6 @@ import org.junit.Test;
 import tech.bts.cardgame.exception.*;
 import tech.bts.cardgame.model.Card;
 import tech.bts.cardgame.model.Deck;
-import tech.bts.cardgame.model.Hand;
 import tech.bts.cardgame.service.Game;
 
 import java.util.*;
@@ -345,10 +344,7 @@ public class GameShould {
 
         g.fillHand("john");
 
-        Hand hand1 = g.getPlayerHand("john");
-        Hand hand2 = g.getPlayerHand("peter");
-
-        g.battle(hand1, hand2);
+        g.battle("john", "peter");
     }
 
     @Test
@@ -383,10 +379,7 @@ public class GameShould {
         g.pickCard("peter");
         g.keep("peter");
 
-        Hand hand1 = g.getPlayerHand("john");
-        Hand hand2 = g.getPlayerHand("peter");
-
-        g.battle(hand1, hand2);
+        g.battle("john", "peter");
 
         assertThat(g.getPoints("john"), is(0));
         assertThat(g.getPoints("peter"), is(1));
@@ -429,16 +422,13 @@ public class GameShould {
         g.pickCard("peter");
         g.keep("peter");
 
-        Hand hand1 = g.getPlayerHand("john");
-        Hand hand2 = g.getPlayerHand("peter");
-
-        g.battle(hand1, hand2);
+        g.battle("john", "peter");
 
         assertThat(g.getState(), is(Game.State.FINISHED));
     }
 
     @Test
-    public void refresh_hands_when_starting_next_battle_but_keep_points() {
+    public void refresh_hands_when_starting_next_battle() {
         Deck d = new Deck();
         d.add(new Card(3,5,2));
         d.add(new Card(5,1,4));
@@ -469,18 +459,11 @@ public class GameShould {
         g.pickCard("peter");
         g.keep("peter");
 
-        Hand hand1 = g.getPlayerHand("john");
-        Hand hand2 = g.getPlayerHand("peter");
-
-        g.battle(hand1, hand2);
+        g.battle("john", "peter");
 
         g.nextBattle();
 
-        assertEquals(new HashMap<>(), g.getPlayerHand("john"));
-        assertEquals(new HashMap<>(), g.getPlayerHand("peter"));
-        assertThat(g.getPoints("john"), is(0));
-        assertThat(g.getPoints("peter"), is(1));
-
+        assertEquals(0, g.getPlayerHand("john").handSize());
+        assertEquals(0, g.getPlayerHand("peter").handSize());
     }
-
 }

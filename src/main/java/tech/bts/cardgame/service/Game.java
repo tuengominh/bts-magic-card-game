@@ -160,10 +160,16 @@ public class Game {
         }
     }
 
-    public void battle (Hand hand1, Hand hand2) {
+    public void battle (String username1, String username2) {
+
+        if(deck.deckSize() < 10) {
+            this.state = State.FINISHED;
+        }
 
         int points1 = 0;
         int points2 = 0;
+        Hand hand1 = getPlayerHand(username1);
+        Hand hand2 = getPlayerHand(username2);
 
         if(hand1.handSize() < HAND_SIZE || hand2.handSize() < HAND_SIZE) {
 
@@ -191,21 +197,19 @@ public class Game {
             } else if (accumulateCard1.getIntelligencePoint() < accumulateCard2.getIntelligencePoint()) {
                 points2++;
             }
-
-        }
-
-        if(deck.deckSize() < 10) {
-            this.state = State.FINISHED;
         }
 
         int result = points1 - points2;
 
         if (result < 0) {
-            players.get(1).setPoint(1);
+            hand2.setPoint(1);
 
         } else if (result > 0) {
-            players.get(0).setPoint(1);
+            hand1.setPoint(1);
         }
+
+        players.put(username1, hand1);
+        players.put(username2, hand2);
     }
 
     public void nextBattle() {
