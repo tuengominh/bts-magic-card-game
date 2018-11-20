@@ -428,7 +428,7 @@ public class GameShould {
     }
 
     @Test
-    public void refresh_hands_when_starting_next_battle() {
+    public void refresh_hands_when_starting_next_battle_but_store_points_for_each_player() {
         Deck d = new Deck();
         d.add(new Card(3,5,2));
         d.add(new Card(5,1,4));
@@ -465,5 +465,7 @@ public class GameShould {
 
         assertEquals(0, g.getPlayerHand("john").handSize());
         assertEquals(0, g.getPlayerHand("peter").handSize());
+        assertThat(g.getPlayer1Point(), is(0));
+        assertThat(g.getPlayer2Point(), is(1));
     }
 }

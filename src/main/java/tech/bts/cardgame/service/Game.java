@@ -19,6 +19,8 @@ public class Game {
     private Map<String, Hand> players;
     private Map<String, Card> pickedCardbyUserName;
     private Map<String, Integer> discardedCounterbyUserName;
+    private int player1Point;
+    private int player2Point;
 
     public final static int HAND_SIZE = 3;
     public final static int MAXIMUM_DISCARD = 2;
@@ -30,6 +32,8 @@ public class Game {
         this.players = new HashMap<>();
         this.pickedCardbyUserName = new HashMap<>();
         this.discardedCounterbyUserName = new HashMap<>();
+        this.player1Point = 0;
+        this.player2Point = 0;
     }
 
     public State getState() {
@@ -203,9 +207,11 @@ public class Game {
 
         if (result < 0) {
             hand2.setPoint(1);
+            player2Point += 1;
 
         } else if (result > 0) {
             hand1.setPoint(1);
+            player1Point += 1;
         }
 
         players.put(username1, hand1);
@@ -219,5 +225,13 @@ public class Game {
         this.pickedCardbyUserName = new HashMap<>();
         this.discardedCounterbyUserName = new HashMap<>();
 
+    }
+
+    public int getPlayer1Point() {
+        return player1Point;
+    }
+
+    public int getPlayer2Point() {
+        return player2Point;
     }
 }
