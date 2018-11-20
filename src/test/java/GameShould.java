@@ -217,6 +217,8 @@ public class GameShould {
         assertThat(pc1, is(c2));
         assertThat(pc2, is(c1));
 
+        System.out.println(g.getPlayerHand("john").toString());
+        System.out.println(g.getPlayerHand("peter").toString());
     }
 
     @Test (expected = CannotKeepWithoutPreviouslyPickingException.class)

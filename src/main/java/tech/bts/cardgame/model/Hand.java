@@ -30,6 +30,19 @@ public class Hand {
         this.point += point;
     }
 
+    public String toString(){
+
+        String result = "";
+
+        result += "This hand includes " + this.hand.size() + " cards: ";
+
+        for (int i = 0; i < hand.size(); i++) {
+            result += hand.get(i).toString();
+        }
+
+        return result;
+    }
+
     public Hand keep (Card card){
         hand.add(card);
         return this;

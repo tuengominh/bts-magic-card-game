@@ -156,7 +156,6 @@ public class Game {
             }
 
         } else {
-
             throw new HaventDiscard2CardsException();
         }
     }
