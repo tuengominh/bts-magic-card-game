@@ -219,6 +219,7 @@ public class GameShould {
 
         System.out.println(g.getPlayerHand("john").toString());
         System.out.println(g.getPlayerHand("peter").toString());
+
     }
 
     @Test (expected = CannotKeepWithoutPreviouslyPickingException.class)
