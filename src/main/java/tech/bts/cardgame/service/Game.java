@@ -113,7 +113,9 @@ public class Game {
             }
 
         } else {
+
             throw new CannotDiscardWithoutPreviouslyPickingException();
+
         }
     }
 
