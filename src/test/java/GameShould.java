@@ -183,7 +183,7 @@ public class GameShould {
         g.pickCard("john");
     }
 
-    @Test (expected = CannotDiscardWithoutPreviouslyPickingException.class)
+    @Test (expected = CannotActionWithoutPreviouslyPickingException.class)
     public void not_allow_discarding_without_previously_picking() {
 
         Deck d = new Deck();
@@ -228,7 +228,7 @@ public class GameShould {
 
     }
 
-    @Test (expected = CannotKeepWithoutPreviouslyPickingException.class)
+    @Test (expected = CannotActionWithoutPreviouslyPickingException.class)
     public void not_allow_keeping_without_previously_picking() {
 
         Deck d = new Deck();

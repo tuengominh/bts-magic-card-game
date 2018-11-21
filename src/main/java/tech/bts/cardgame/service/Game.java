@@ -127,7 +127,7 @@ public class Game {
             }
 
         } else {
-            throw new CannotDiscardWithoutPreviouslyPickingException();
+            throw new CannotActionWithoutPreviouslyPickingException();
         }
 
         pickedCardbyUserName.remove(username);
@@ -148,7 +148,7 @@ public class Game {
             }
 
         } else {
-            throw new CannotKeepWithoutPreviouslyPickingException();
+            throw new CannotActionWithoutPreviouslyPickingException();
         }
 
         pickedCardbyUserName.remove(username);
