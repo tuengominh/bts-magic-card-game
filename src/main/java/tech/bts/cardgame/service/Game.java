@@ -153,11 +153,13 @@ public class Game {
     public void fillHand(String username) {
 
         int discardCounter = getDiscardedCounterbyUserName(username);
-
         Hand hand = getPlayerHand(username);
 
         if(discardCounter < MAXIMUM_DISCARD) {
             throw new HaventDiscard2CardsException();
+
+        } else if(discardCounter > MAXIMUM_DISCARD) {
+            throw new CannotDiscard3CardsException();
 
         } else {
             if(hand.handSize() >= HAND_SIZE) {

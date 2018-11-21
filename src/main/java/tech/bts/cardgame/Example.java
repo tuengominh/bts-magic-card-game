@@ -36,8 +36,7 @@ public class Example {
         g.pickCard("Peter");
         g.discard("Peter"); //keep or discard based on user's input
 
-        System.out.println(g.getDiscardedCounterbyUserName("Peter"));
-        g.fillHand("Peter");
+        g.fillHand("Peter"); //method did not add Card to Hand
         System.out.println(g.getPlayerHand("Peter").handSize());
 
         //3 - create battle function
