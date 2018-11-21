@@ -177,10 +177,6 @@ public class Game {
 
     public void battle (String username1, String username2) {
 
-        if(deck.deckSize() < MINIMUM_DECK_SIZE) {
-            this.state = State.FINISHED;
-        }
-
         Hand hand1 = getPlayerHand(username1);
         Hand hand2 = getPlayerHand(username2);
         int points1 = 0;
@@ -190,6 +186,10 @@ public class Game {
             fillHand(username1);
         } else if (hand2.handSize() < HAND_SIZE) {
             fillHand(username2);
+        }
+
+        if(deck.deckSize() < MINIMUM_DECK_SIZE) {
+            this.state = State.FINISHED;
         }
 
         Card accumulateCard1 = hand1.calculate();
