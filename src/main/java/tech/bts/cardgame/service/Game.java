@@ -153,7 +153,7 @@ public class Game {
     public void fillHand(String username) {
 
         int discardCounter = getDiscardedCounterbyUserName(username);
-        System.out.println(discardCounter);
+
         Hand hand = getPlayerHand(username);
 
         if(discardCounter < MAXIMUM_DISCARD) {
