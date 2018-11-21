@@ -240,7 +240,7 @@ public class GameShould {
         g.keep("john");
     }
 
-    @Test (expected = CannotDiscard3CardsException.class)
+    @Test (expected = MaximumDiscardLimitExceededException.class)
     public void not_allow_discarding_more_than_2_cards() {
 
         Deck d = new Deck();
@@ -304,7 +304,7 @@ public class GameShould {
         assertThat(g.getPlayerHand("john").handSize(), is(3));
     }
 
-    @Test (expected = HaventDiscard2CardsException.class)
+    @Test (expected = DidNotFinishDiscardingException.class)
     public void not_auto_filling_hands_if_have_not_discard_twice() {
         Deck d = new Deck();
         d.generate();
@@ -323,7 +323,7 @@ public class GameShould {
         g.fillHand("john");
     }
 
-    @Test (expected = CannotBattleIfHandsNotFilledException.class)
+    @Test (expected = CannotBattleException.class)
     public void not_allow_battle_if_hands_not_filled() {
         Deck d = new Deck();
         d.generate();
