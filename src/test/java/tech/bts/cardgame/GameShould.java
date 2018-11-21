@@ -1,3 +1,5 @@
+package tech.bts.cardgame;
+
 import org.junit.Test;
 import tech.bts.cardgame.exception.*;
 import tech.bts.cardgame.model.Card;
