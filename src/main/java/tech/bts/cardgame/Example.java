@@ -36,7 +36,7 @@ public class Example {
         g.pickCard("Peter");
         g.discard("Peter"); //keep or discard based on user's input
 
-        g.fillHand("Peter");
+        g.fillHand("Peter"); //check if hands are filled and decide to call this method
 
         System.out.println(g.getPlayerHand("Peter").handSize());
         System.out.println(g.getPlayerHand("John").handSize());
@@ -52,7 +52,11 @@ public class Example {
 
         while (d.deckSize() > Game.MINIMUM_DECK_SIZE) {
             g.nextBattle();
+            // pick cards & fill hands method
+            System.out.println(d.deckSize());
+            // g.battle("John", "Peter");
+            System.out.println(g.getTotalPoints("John"));
+            System.out.println(g.getTotalPoints("Peter"));
         }
-
     }
 }
