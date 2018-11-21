@@ -28,10 +28,17 @@ public class Example {
         g.keep("John"); //keep or discard based on user's input
 
         g.pickCard("Peter");
-        g.discard("Peter"); //keep or discard based on user's input
+        g.keep("Peter"); //keep or discard based on user's input
 
         g.pickCard("John");
         g.keep("John"); //keep or discard based on user's input
+
+        g.pickCard("Peter");
+        g.discard("Peter"); //keep or discard based on user's input
+
+        System.out.println(g.getDiscardedCounterbyUserName("Peter"));
+        g.fillHand("Peter");
+        System.out.println(g.getPlayerHand("Peter").handSize());
 
         //3 - create battle function
         //with a loop to execute nextBattle() & battle() while deck.deckSize() > 10

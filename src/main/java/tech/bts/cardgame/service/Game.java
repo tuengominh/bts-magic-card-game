@@ -59,7 +59,11 @@ public class Game {
         return points.get(username);
     }
 
-    public Map<String, Card> getPickedCardbyUserName() {
+    public int getDiscardedCounterbyUserName(String username) {
+        return discardedCounterbyUserName.get(username);
+    }
+
+    public Map<String, Card> getPickedCardbyUserName(String username) {
         return pickedCardbyUserName;
     }
 
@@ -108,7 +112,7 @@ public class Game {
     public void discard(String username) {
 
         Card pickedCard = pickedCardbyUserName.get(username);
-        int discardCounter = discardedCounterbyUserName.get(username);
+        int discardCounter = getDiscardedCounterbyUserName(username);
 
         if (pickedCard != null) {
 
@@ -148,11 +152,14 @@ public class Game {
 
     public void fillHand(String username) {
 
-        int discardCounter = discardedCounterbyUserName.get(username);
+        int discardCounter = getDiscardedCounterbyUserName(username);
+        System.out.println(discardCounter);
         Hand hand = getPlayerHand(username);
 
-        if(discardCounter >= MAXIMUM_DISCARD) {
+        if(discardCounter < MAXIMUM_DISCARD) {
+            throw new HaventDiscard2CardsException();
 
+        } else {
             if(hand.handSize() >= HAND_SIZE) {
                 throw new HandSizeLimitExceededException();
 
@@ -160,11 +167,9 @@ public class Game {
                 for(int i = 0; i < HAND_SIZE - hand.handSize(); i++) {
                     pickCard(username);
                     keep(username);
+                    discardCounter ++;
                 }
             }
-
-        } else {
-            throw new HaventDiscard2CardsException();
         }
     }
 
