@@ -16,7 +16,7 @@ public class Example {
         pickingCards(g);
 
         //3 - create battle function
-        //with a loop to execute nextBattle() & battle() while deck.deckSize() > 10
+        //with a loop to execute battles while deck.deckSize() > 10
 
         g.battle("John", "Peter");
 
