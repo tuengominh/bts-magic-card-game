@@ -171,7 +171,7 @@ public class GameShould {
         assertThat(pc2, is(c1));
     }
 
-    @Test (expected = CannotPickCardsIfNotPlayingException.class)
+    @Test (expected = NotPlayingException.class)
     public void not_allow_picking_if_not_playing() {
 
         Deck d = new Deck();

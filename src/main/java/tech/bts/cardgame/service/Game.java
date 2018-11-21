@@ -89,7 +89,7 @@ public class Game {
     public Card pickCard(String username) {
 
         if (!state.equals(State.PLAYING)) {
-            throw new CannotPickCardsIfNotPlayingException();
+            throw new NotPlayingException();
         }
 
         if (!this.getPlayerNames().contains(username)) {
