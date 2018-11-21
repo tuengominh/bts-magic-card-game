@@ -162,6 +162,9 @@ public class Game {
         if(discardCounter < MAXIMUM_DISCARD) {
             throw new HaventDiscard2CardsException();
 
+        } else if(discardCounter > MAXIMUM_DISCARD) {
+            throw new CannotDiscard3CardsException();
+
         } else {
             if(hand.handSize() >= HAND_SIZE) {
                 throw new HandSizeLimitExceededException();
