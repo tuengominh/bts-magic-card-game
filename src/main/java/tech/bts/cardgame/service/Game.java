@@ -185,10 +185,8 @@ public class Game {
         int points1 = 0;
         int points2 = 0;
 
-        if(hand1.handSize() < HAND_SIZE) {
-            fillHand(username1);
-        } else if (hand2.handSize() < HAND_SIZE) {
-            fillHand(username2);
+        if(hand1.handSize() < HAND_SIZE || hand2.handSize() < HAND_SIZE) {
+            throw new CannotBattleIfHandsNotFilledException();
         }
 
         if(deck.deckSize() < MINIMUM_DECK_SIZE) {
