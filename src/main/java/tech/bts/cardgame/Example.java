@@ -9,6 +9,7 @@ public class Example {
 
         //1 - create prepareGame function
         Deck d = new Deck().generate().shuffle();
+        int deckSize = d.deckSize();
         Game g = prepareGame(d);
 
         //2 - create pickingCards function
@@ -20,13 +21,8 @@ public class Example {
 
         g.battle("John", "Peter");
 
-        int deckSize = d.deckSize();
-
         while (deckSize > Game.MINIMUM_DECK_SIZE) {
             g.nextBattle();
-            //Game g1 = prepareGame(d);
-            //pickingCards(g1);
-            //g1.battle("John", "Peter");
         }
 
     }

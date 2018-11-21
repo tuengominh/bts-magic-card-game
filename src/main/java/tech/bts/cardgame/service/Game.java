@@ -35,6 +35,10 @@ public class Game {
         this.points = new HashMap<>();
     }
 
+    public Deck getDeck() {
+        return deck;
+    }
+
     public State getState() {
         return state;
     }
