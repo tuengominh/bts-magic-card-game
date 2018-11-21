@@ -122,16 +122,14 @@ public class Game {
 
             if(discardCounter >= MAXIMUM_DISCARD) {
                 throw new MaximumDiscardLimitExceededException();
-            } else {
-                discardCounter++;
             }
 
         } else {
             throw new CannotActionWithoutPreviouslyPickingException();
         }
 
+        discardedCounterbyUserName.put(username, discardCounter + 1);
         pickedCardbyUserName.remove(username);
-        discardedCounterbyUserName.put(username, discardCounter);
     }
 
     public void keep(String username) {
