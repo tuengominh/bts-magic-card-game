@@ -36,12 +36,11 @@ public class Example {
         g.pickCard("Peter");
         g.discard("Peter"); //keep or discard based on user's input
 
-        g.fillHand("Peter"); //method did not add Card to Hand
-        System.out.println(g.getPlayerHand("Peter").handSize());
-
         //3 - create battle function
         //with a loop to execute nextBattle() & battle() while deck.deckSize() > 10
 
+        g.battle("John", "Peter");
+        System.out.println(g.getPlayerHand("Peter").handSize());
 
     }
 }

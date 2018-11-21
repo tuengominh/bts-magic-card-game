@@ -166,10 +166,9 @@ public class Game {
                 throw new HandSizeLimitExceededException();
 
             } else {
-                for(int i = 0; i < HAND_SIZE - hand.handSize(); i++) {
+                while(hand.handSize() < HAND_SIZE) {
                     pickCard(username);
                     keep(username);
-                    discardCounter ++;
                 }
             }
         }
