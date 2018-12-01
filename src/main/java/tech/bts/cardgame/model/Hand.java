@@ -8,18 +8,18 @@ public class Hand {
     private List<Card> hand;
     private int point;
 
-    public Hand() {
+    public Hand(List<Card> cards) {
 
-        this.hand = new ArrayList<>();
+        this.hand = cards;
         this.point = 0;
+    }
+
+    public Hand(){
+        this.hand = new ArrayList<>();
     }
 
     public List<Card> getHand() {
         return hand;
-    }
-
-    public void setHand(List<Card> cards) {
-        this.hand = cards;
     }
 
     public int getPoint() {
@@ -30,6 +30,7 @@ public class Hand {
         this.point += point;
     }
 
+    @Override
     public String toString(){
 
         String result = "";
@@ -61,7 +62,6 @@ public class Hand {
             strength += card.getStrengthPoint();
             intelligence += card.getIntelligencePoint();
         }
-
         return new Card(magic, strength, intelligence);
     }
 

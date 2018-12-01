@@ -12,6 +12,7 @@ public class Card {
         this.intelligencePoint = intelligencePoint;
     }
 
+    @Override
     public String toString(){
         return "Card: " + this.magicPoint + " magic points, " + this.strengthPoint + " strength points, " + this.intelligencePoint + " intelligence points.";
     }

@@ -4,39 +4,12 @@ import org.junit.Test;
 import tech.bts.cardgame.exception.*;
 import tech.bts.cardgame.model.Card;
 import tech.bts.cardgame.model.Deck;
-import tech.bts.cardgame.service.Game;
+import tech.bts.cardgame.model.Game;
 
 import java.util.*;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
-
-/**
- * Creating a game:
- * - A game is created with a deck of cards (each card has 3 numbers (>=1) that added make 10).
- * - Note: the 3 numbers represent magic, strength, intelligence
- * - When a game is created, its state is OPEN.
- *
- * Joining a game:
- * - A player can join an OPEN game (for simplicity, a player is indicated by its username).
- * - When 2 players join the game, the state of the game changes to PLAYING.
- * - A player can't join if the game state is not OPEN (throw an exception if someone tries).
- *
- * Picking cards:
- * - When the game is PLAYING, any player that joined the game can pick a card.
- * - TODO: picking is only allowed while playing.
- * - After picking a card, a player must keep it or discard it before picking another one.
- * - A player can only discard 2 cards (i.e. must pick 3 cards).
- *
- * The battle (point calculation):
- * - When the 2 players have picked 3 cards, the winner of that round is calculated:
- * - Each player adds all magics, all strengths and all intelligences
- * - Totals of each category is compared between players
- * - Player who wins in 2 categories earns a point (there may be no winner)
- *
- * - After the points are calculated, a new battle starts (players pick cards again)
- * - If there are less than 10 cards in the deck, the game changes to state FINISHED
- */
 
 public class GameShould {
 
@@ -185,7 +158,7 @@ public class GameShould {
         g.pickCard("john");
     }
 
-    @Test (expected = CannotActionWithoutPreviouslyPickingException.class)
+    @Test (expected = CannotActWithoutPreviouslyPickingException.class)
     public void not_allow_discarding_without_previously_picking() {
 
         Deck d = new Deck();
@@ -225,12 +198,9 @@ public class GameShould {
         assertThat(pc1, is(c2));
         assertThat(pc2, is(c1));
 
-        System.out.println(g.getPlayerHand("john").toString());
-        System.out.println(g.getPlayerHand("peter").toString());
-
     }
 
-    @Test (expected = CannotActionWithoutPreviouslyPickingException.class)
+    @Test (expected = CannotActWithoutPreviouslyPickingException.class)
     public void not_allow_keeping_without_previously_picking() {
 
         Deck d = new Deck();
@@ -301,9 +271,7 @@ public class GameShould {
         g.pickCard("john");
         g.discard("john");
 
-        g.fillHand("john");
-
-        assertThat(g.getPlayerHand("john").handSize(), is(3));
+        assertThat(g.getPlayer("john").getHand().handSize(), is(3));
     }
 
     @Test (expected = DidNotFinishDiscardingException.class)
@@ -322,34 +290,6 @@ public class GameShould {
         g.pickCard("john");
         g.discard("john");
 
-        g.fillHand("john");
-    }
-
-    @Test (expected = CannotBattleException.class)
-    public void not_allow_battle_if_hands_not_filled() {
-        Deck d = new Deck();
-        d.generate();
-
-        Game g = new Game(d);
-        g.join("john");
-        g.join("peter");
-
-        g.pickCard("john");
-        g.keep("john");
-
-        g.pickCard("peter");
-        g.keep("peter");
-
-        g.pickCard("john");
-        g.keep("john");
-
-        g.pickCard("peter");
-        g.keep("peter");
-
-        g.pickCard("john");
-        g.discard("john");
-
-        g.battle("john", "peter");
     }
 
     @Test
@@ -384,10 +324,8 @@ public class GameShould {
         g.pickCard("peter");
         g.keep("peter");
 
-        g.battle("john", "peter");
-
-        assertThat(g.getBattlePoint("john"), is(0));
-        assertThat(g.getBattlePoint("peter"), is(1));
+        assertThat(g.getPlayer("john").getHand().getPoint(), is(0));
+        assertThat(g.getPlayer("peter").getHand().getPoint(), is(1));
     }
 
     @Test
@@ -427,8 +365,6 @@ public class GameShould {
         g.pickCard("peter");
         g.keep("peter");
 
-        g.battle("john", "peter");
-
         assertThat(g.getState(), is(Game.State.FINISHED));
     }
 
@@ -464,16 +400,41 @@ public class GameShould {
         g.pickCard("peter");
         g.keep("peter");
 
-        g.battle("john", "peter");
-
         g.nextBattle();
 
-        assertEquals(0, g.getPlayerHand("john").handSize());
-        assertEquals(0, g.getPlayerHand("peter").handSize());
+        assertEquals(0, g.getPlayer("john").getHand().handSize());
+        assertEquals(0, g.getPlayer("peter").getHand().handSize());
 
-        assertThat(g.getBattlePoint("john"), is(0));
-        assertThat(g.getBattlePoint("peter"), is(0));
-        assertThat(g.getTotalPoints("john"), is(0));
-        assertThat(g.getTotalPoints("peter"), is(1));
+        assertThat(g.getPlayer("john").getHand().getPoint(), is(0));
+        assertThat(g.getPlayer("peter").getHand().getPoint(), is(0));
+        assertThat(g.getPlayer("john").getPoint(), is(0));
+        assertThat(g.getPlayer("peter").getPoint(), is(1));
     }
 }
+
+/**
+ * Creating a game:
+ * - A game is created with a deck of cards (each card has 3 numbers (>=1) that added make 10).
+ * - Note: the 3 numbers represent magic, strength, intelligence
+ * - When a game is created, its state is OPEN.
+ *
+ * Joining a game:
+ * - A player can join an OPEN game (for simplicity, a player is indicated by its username).
+ * - When 2 players join the game, the state of the game changes to PLAYING.
+ * - A player can't join if the game state is not OPEN (throw an exception if someone tries).
+ *
+ * Picking cards:
+ * - When the game is PLAYING, any player that joined the game can pick a card.
+ * - TODO: picking is only allowed while playing.
+ * - After picking a card, a player must keep it or discard it before picking another one.
+ * - A player can only discard 2 cards (i.e. must pick 3 cards).
+ *
+ * The battle (point calculation):
+ * - When the 2 players have picked 3 cards, the winner of that round is calculated:
+ * - Each player adds all magics, all strengths and all intelligences
+ * - Totals of each category is compared between players
+ * - Player who wins in 2 categories earns a point (there may be no winner)
+ *
+ * - After the points are calculated, a new battle starts (players pick cards again)
+ * - If there are less than 10 cards in the deck, the game changes to state FINISHED
+ */

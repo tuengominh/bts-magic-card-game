@@ -18,26 +18,18 @@ public class Deck {
         return deck;
     }
 
-    public void remove (Card card){
-        deck.remove(card);
-    }
-
-    // toString
-
-    public Deck generate() {
+    public void generate() {
 
         for (int magicPoint = 1; magicPoint <= 8; magicPoint++) {
-
             //nested loop
             for (int strengthPoint = 1; strengthPoint <= (9 - magicPoint); strengthPoint++) {
                 int intelligencePoint = 10 - magicPoint - strengthPoint;
                 this.add(new Card(magicPoint, strengthPoint, intelligencePoint));
             }
         }
-        return this;
     }
 
-    public Deck shuffle() {
+    public void shuffle() {
 
         Random random = new Random();
 
@@ -46,11 +38,9 @@ public class Deck {
             Card card1 = this.deck.get(i);
             Card card2 = this.deck.get(random.nextInt(deck.size()));
 
-            this.deck.set(i, card1);
-            this.deck.set(random.nextInt(deck.size()), card2);
+            this.deck.set(random.nextInt(deck.size()), card1);
+            this.deck.set(i, card2);
         }
-
-        return this;
     }
 
     public Card pickCard() {
@@ -59,13 +49,13 @@ public class Deck {
 
     public Hand deal(int dealSize) {
 
-        Hand cards = new Hand();
+        List<Card> cards = new ArrayList<>();
 
-        for (int i = 1; i<=dealSize; i++) {
-            cards.keep(this.pickCard());
+        for (int i = 1; i <= dealSize; i++) {
+            cards.add(this.pickCard());
         }
 
-        return cards;
+        return new Hand(cards);
     }
 
     public int deckSize() {
