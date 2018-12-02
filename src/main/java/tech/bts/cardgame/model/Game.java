@@ -97,29 +97,23 @@ public class Game {
         int discardCounter = player.getDiscardCounter();
         Hand hand = player.getHand();
 
-        if (pickedCard != null) {
-            if(discardCounter > MAXIMUM_DISCARD) {
-                throw new MaximumDiscardLimitExceededException();
-
-            } else if(discardCounter < MAXIMUM_DISCARD) {
-                throw new DidNotFinishDiscardingException();
-
-            } else {
-                if(hand.handSize() >= HAND_SIZE) {
-                    throw new HandSizeLimitExceededException();
-                } else {
-                    while(hand.handSize() < HAND_SIZE) {
-                        pickCard(username);
-                        keep(username);
-                    }
-                }
-            }
-        } else {
+        if(pickedCard == null) {
             throw new CannotActWithoutPreviouslyPickingException();
+        } else {
+            if (discardCounter >= MAXIMUM_DISCARD) {
+                throw new MaximumDiscardLimitExceededException();
+            } else {
+                player.setDiscardCounter(discardCounter + 1);
+                player.setPickedCard(null);
+            }
         }
 
-        player.setDiscardCounter(discardCounter + 1);
-        player.setPickedCard(null);
+        if (discardCounter == MAXIMUM_DISCARD) {
+            while(hand.handSize() < HAND_SIZE) {
+                pickCard(username);
+                keep(username);
+            }
+        }
 
         battle();
     }

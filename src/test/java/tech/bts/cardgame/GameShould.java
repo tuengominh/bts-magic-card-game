@@ -274,24 +274,6 @@ public class GameShould {
         assertThat(g.getPlayer("john").getHand().handSize(), is(3));
     }
 
-    @Test (expected = DidNotFinishDiscardingException.class)
-    public void not_auto_filling_hands_if_have_not_discard_twice() {
-        Deck d = new Deck();
-        d.generate();
-
-        Game g = new Game(d);
-        g.join("john");
-        g.join("peter");
-
-        g.pickCard("john");
-        g.keep("john");
-        g.pickCard("john");
-        g.keep("john");
-        g.pickCard("john");
-        g.discard("john");
-
-    }
-
     @Test
     public void give_points_to_winner() {
         Deck d = new Deck();
