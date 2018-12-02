@@ -10,12 +10,12 @@ import tech.bts.cardgame.service.GameService;
 import java.util.Collection;
 
 @RestController
-public class GameController {
+public class GameAPIController {
 
     private GameService gameService;
 
     @Autowired
-    public GameController(GameService gameService) {
+    public GameAPIController(GameService gameService) {
         this.gameService = gameService;
     }
 
