@@ -7,6 +7,8 @@ import tech.bts.cardgame.model.Game;
 import tech.bts.cardgame.model.GameUser;
 import tech.bts.cardgame.service.GameService;
 
+import java.util.Collection;
+
 @RestController
 public class GameController {
 
@@ -36,5 +38,11 @@ public class GameController {
 
         gameUser.setGameId(gameId);
         return gameService.pickCard(gameUser);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/games")
+    public Collection<Game> getGames() {
+
+        return gameService.getGames();
     }
 }
