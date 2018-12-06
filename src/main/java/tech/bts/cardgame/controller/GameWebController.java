@@ -32,7 +32,8 @@ public class GameWebController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String displayGames() { //throws IOException
+    public String displayGames() throws IOException {
+
         return buildGameList();
 
         /** TemplateLoader loader = new ClassPathTemplateLoader();
@@ -52,10 +53,15 @@ public class GameWebController {
     public String displayGameById(@PathVariable long gameId) throws IOException {
 
         Game game = gameService.getGameById(gameId);
-        String result = "<h1>Game " + game.getId() + "</h1> <a href=\"/games\" <p>Go back to the games</p></a><p>State: " + game.getState() + "</p><p>Players: " + game.getPlayerNames() + "</p>";
+
+        String result = "<h1>Game " + game.getId() + "</h1>";
+        result += "<h2><a href=\"/games\">Go back to Game List</h2>";
+
+        result += "<p>State: " + game.getState() + "</p>";
+        result += "<p>Players: " + game.getPlayerNames() + "</p>";
 
         if (game.getState() == Game.State.OPEN) {
-            result += "<p><a href=\"/games/" + game.getId() + "/join\"> Join this game</p>";
+            result += "<h2><a href=\"/games/" + game.getId() + "/join\"> Join this game</a></h2>";
         }
         return result;
 
@@ -82,18 +88,19 @@ public class GameWebController {
 
     @RequestMapping(method = RequestMethod.GET, path = "/{gameId}/join")
     public void joinGame(HttpServletResponse response, @PathVariable long gameId) throws IOException {
-        GameUser gameUser = new GameUser(gameId, "Tue");
+        GameUser gameUser = new GameUser(gameId, "tue");
         gameService.joinGame(gameUser);
         response.sendRedirect("/games/" + gameId);
     }
 
     private String buildGameList() {
         String result = "<h1>List of games</h1>";
-        result += "<p><a href=\"/games/create\">Create game</a></p>";
+        result += "<h2><a href=\"/games/create\">Create game</a></h2>";
 
         result += "<ul style=\"list-style-type:square\">\n";
         for (Game game : gameService.getGames()) {
-            result += "<li><a href=\"/games/" + game.getId() + "\">Game " + game.getId() + "</a> is " + game.getState() + "</li>\n";
+            result += "<li><a href=\"/games/" + game.getId() + "\">Game " + game.getId() + "</a>";
+            result += " is " + game.getState() + "</li>\n";
         }
         result += "</ul>";
 
