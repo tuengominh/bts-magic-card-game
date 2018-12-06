@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -33,20 +32,7 @@ public class GameWebController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String displayGames() throws IOException {
-
         return buildGameList();
-
-        /** TemplateLoader loader = new ClassPathTemplateLoader();
-        loader.setPrefix("/templates");
-        loader.setSuffix(".html.hbs");
-
-        Handlebars handlebars = new Handlebars(loader);
-        Template template = handlebars.compile("games");
-
-        Map<String, Collection<Game>> map = new HashMap<>();
-        map.put("games", gameService.getGames());
-
-        return template.apply(map); */
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/{gameId}")
@@ -54,36 +40,28 @@ public class GameWebController {
 
         Game game = gameService.getGameById(gameId);
 
-        String result = "<h1>Game " + game.getId() + "</h1>";
-        result += "<h2><a href=\"/games\">Go back to Game List</h2>";
-
-        result += "<p>State: " + game.getState() + "</p>";
-        result += "<p>Players: " + game.getPlayerNames() + "</p>";
-
-        if (game.getState() == Game.State.OPEN) {
-            result += "<h2><a href=\"/games/" + game.getId() + "/join\"> Join this game</a></h2>";
-        }
-        return result;
-
-        /** TemplateLoader loader = new ClassPathTemplateLoader();
+        TemplateLoader loader = new ClassPathTemplateLoader();
         loader.setPrefix("/templates");
         loader.setSuffix(".html.hbs");
 
         Handlebars handlebars = new Handlebars(loader);
-        Template template = handlebars.compile("games");
+        Template template = handlebars.compile("detailGame");
 
         Map<String, Game> map = new HashMap<>();
-        map.put("games", gameService.getGameById(gameId));
+        map.put("games", game);
 
-        return template.apply(map); */
+        String result = template.apply(map);
+
+        if (game.getState() == Game.State.OPEN) {
+            result += "<button onclick= location.href=\"/games/" + game.getId() + "/join\">Join this game</button></h2>";
+        }
+        return result;
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/create")
     public void createGame(HttpServletResponse response) throws IOException {
         gameService.createGame();
         response.sendRedirect("/games");
-
-        //return buildGameList();
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/{gameId}/join")
@@ -93,17 +71,17 @@ public class GameWebController {
         response.sendRedirect("/games/" + gameId);
     }
 
-    private String buildGameList() {
-        String result = "<h1>List of games</h1>";
-        result += "<h2><a href=\"/games/create\">Create game</a></h2>";
+    private String buildGameList() throws IOException {
+        TemplateLoader loader = new ClassPathTemplateLoader();
+        loader.setPrefix("/templates");
+        loader.setSuffix(".html.hbs");
 
-        result += "<ul style=\"list-style-type:square\">\n";
-        for (Game game : gameService.getGames()) {
-            result += "<li><a href=\"/games/" + game.getId() + "\">Game " + game.getId() + "</a>";
-            result += " is " + game.getState() + "</li>\n";
-        }
-        result += "</ul>";
+        Handlebars handlebars = new Handlebars(loader);
+        Template template = handlebars.compile("games");
 
-        return result;
+        Map<String, Collection<Game>> map = new HashMap<>();
+        map.put("games", gameService.getGames());
+
+        return template.apply(map);
     }
 }

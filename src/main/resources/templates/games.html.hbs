@@ -1,9 +1,11 @@
 <h1>List of Games</h1>
 
+<button onclick= location.href="/games/create" type= button>Create game</button>
+
+<ul style=\"list-style-type:square\">
+
 {{#games}}
-
-<p>id : {{id}}</p>
-<p>state : {{state}}</p>
-<p>players : {{playerNames}}</p>
-
+    <li><a href=/games/{{id}}>Game {{id}}</a> is {{state}}</li>
 {{/games}}
+
+</ul>
