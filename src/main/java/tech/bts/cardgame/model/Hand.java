@@ -6,44 +6,16 @@ import java.util.List;
 public class Hand {
 
     private List<Card> hand;
-    private int point;
+    //private int point;
 
     public Hand(List<Card> cards) {
 
         this.hand = cards;
-        this.point = 0;
+        //this.point = 0;
     }
 
     public Hand(){
         this.hand = new ArrayList<>();
-    }
-
-    public List<Card> getHand() {
-        return hand;
-    }
-
-    public int getPoint() {
-        return point;
-    }
-
-    public void setPoint(int point) {
-        this.point += point;
-    }
-
-    @Override
-    public String toString(){
-
-        String result = "";
-
-        result += "This hand includes " + this.hand.size() + " cards: ";
-
-        for (int i = 0; i < hand.size(); i++) {
-            result += "\n";
-            result += hand.get(i).toString();
-            result += " ";
-        }
-
-        return result;
     }
 
     public Hand keep (Card card){
@@ -63,6 +35,26 @@ public class Hand {
             intelligence += card.getIntelligencePoint();
         }
         return new Card(magic, strength, intelligence);
+    }
+
+    @Override
+    public String toString(){
+
+        String result = "";
+
+        result += "This hand includes " + this.hand.size() + " cards: ";
+
+        for (int i = 0; i < hand.size(); i++) {
+            result += "\n";
+            result += hand.get(i).toString();
+            result += " ";
+        }
+
+        return result;
+    }
+
+    public List<Card> getHand() {
+        return hand;
     }
 
     public int handSize() {

@@ -1,7 +1,5 @@
 package tech.bts.cardgame.model;
 
-import java.util.List;
-
 public class Player {
 
     private String name;
@@ -14,8 +12,12 @@ public class Player {
         this.name = name;
         this.discardCounter = 0;
         this.pickedCard = null;
-        this.hand = new Hand();
+        this.hand = null;
         this.point = 0;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public int getDiscardCounter() {
@@ -50,7 +52,4 @@ public class Player {
         this.point += point;
     }
 
-    public String getName() {
-        return name;
-    }
 }

@@ -3,9 +3,7 @@ package tech.bts.cardgame.repository;
 import org.springframework.stereotype.Repository;
 import tech.bts.cardgame.model.Game;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 public class GameRepository {
@@ -28,7 +26,7 @@ public class GameRepository {
         return gameMap.get(id);
     }
 
-    public Collection<Game> getAll() {
-        return gameMap.values();
+    public List<Game> getAll() {
+        return new ArrayList<>(gameMap.values());
     }
 }

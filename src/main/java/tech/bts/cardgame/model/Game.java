@@ -14,7 +14,6 @@ public class Game {
     private long id;
     private final Deck deck;
     private State state;
-
     private Map<String, Player> players;
 
     public final static int HAND_SIZE = 3;
@@ -28,27 +27,7 @@ public class Game {
         this.players = new HashMap<>();
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public State getState() {
-        return state;
-    }
-
-    public Player getPlayer(String username) {
-        return players.get(username);
-    }
-
-    public List<String> getPlayerNames() {
-        return new ArrayList<>(players.keySet());
-    }
-
-    public void join(String username) {
+    public Player join(String username) {
 
         if (!state.equals(State.OPEN)) {
             throw new JoiningNotAllowedException();
@@ -59,6 +38,8 @@ public class Game {
         if (players.size() == MAXIMUM_PLAYER_NUM) {
             this.state = State.PLAYING;
         }
+
+        return new Player(username);
     }
 
     public Card pickCard(String username) {
@@ -78,16 +59,15 @@ public class Game {
             throw new HandSizeLimitExceededException();
         }
 
-        Card pickedCard = player.getPickedCard();
-        if (pickedCard != null) {
+        if (player.getPickedCard() != null) {
             throw new CannotPick2CardsInARowException();
         }
 
-        Card newPickedCard = deck.pickCard();
+        Card pickedCard = deck.pickCard();
 
-        player.setPickedCard(newPickedCard);
+        player.setPickedCard(pickedCard);
 
-        return newPickedCard;
+        return pickedCard;
     }
 
     public void discard(String username) {
@@ -95,27 +75,36 @@ public class Game {
         Player player = players.get(username);
         Card pickedCard = player.getPickedCard();
         int discardCounter = player.getDiscardCounter();
-        Hand hand = player.getHand();
 
-        if(pickedCard == null) {
+        if (pickedCard == null) {
             throw new CannotActWithoutPreviouslyPickingException();
-        } else {
-            if (discardCounter >= MAXIMUM_DISCARD) {
-                throw new MaximumDiscardLimitExceededException();
-            } else {
-                player.setDiscardCounter(discardCounter + 1);
-                player.setPickedCard(null);
-            }
         }
+
+        if (discardCounter >= MAXIMUM_DISCARD) {
+            throw new MaximumDiscardLimitExceededException();
+        }
+
+        player.setDiscardCounter(discardCounter + 1);
+        player.setPickedCard(null);
 
         if (discardCounter == MAXIMUM_DISCARD) {
-            while(hand.handSize() < HAND_SIZE) {
-                pickCard(username);
-                keep(username);
+            autoFill(username);
+        } else {
+            throw new DidNotFinishDiscardingException();
+        }
+
+        int handsFilled = 0;
+        for (String name : getPlayerNames()) {
+            player = players.get(name);
+            if (player.getHand() != null && player.getHand().handSize() == HAND_SIZE) {
+                handsFilled++;
             }
         }
 
-        battle();
+        if (handsFilled == 2) {
+            battle();
+        }
+
     }
 
     public void keep(String username) {
@@ -124,22 +113,62 @@ public class Game {
         Hand hand = player.getHand();
 
         if (pickedCard != null) {
-            if(hand.handSize() >= HAND_SIZE) {
-                throw new HandSizeLimitExceededException();
+            if(hand != null) {
+                Hand cards = new Hand();
+                cards.keep(pickedCard);
+                player.setHand(cards);
+                player.setPickedCard(null);
+
             } else {
-                Hand hand1 = hand.keep(pickedCard);
-                player.setHand(hand1);
-                players.put(username, player);
+                if (hand.handSize() >= HAND_SIZE) {
+                    hand.keep(pickedCard);
+                    player.setPickedCard(null);
+                } else {
+                    throw new HandSizeLimitExceededException();
+                }
             }
         } else {
             throw new CannotActWithoutPreviouslyPickingException();
         }
-        player.setPickedCard(null);
+
+        int handsFilled = 0;
+        for (String name : getPlayerNames()) {
+            player = players.get(name);
+            if (player.getHand() != null && player.getHand().handSize() == HAND_SIZE) {
+                handsFilled++;
+            }
+        }
+
+        if (handsFilled == 2) {
+            battle();
+        }
+    }
+
+    public void autoFill(String username) {
+
+        Player player = players.get(username);
+        int discardCounter = player.getDiscardCounter();
+        Hand hand = player.getHand();
+
+        if (discardCounter == MAXIMUM_DISCARD) {
+            if (hand != null) {
+                while (hand.handSize() < HAND_SIZE) {
+                    pickCard(username);
+                    keep(username);
+                }
+
+            } else {
+                for (int i = 0; i < 3; i++) {
+                    pickCard(username);
+                    keep(username);
+                }
+            }
+        }
     }
 
     public void battle () {
 
-        Player player1 = players.get(0);
+        /** Player player1 = players.get(0);
         Player player2 = players.get(1);
 
         Hand hand1 = player1.getHand();
@@ -187,23 +216,94 @@ public class Game {
 
         player2.setHand(hand2);
         players.put(player2.getName(), player2);
-        player2.setPoint(hand2.getPoint());
+        player2.setPoint(hand2.getPoint()); */
+
+        Map<String, Card> allAccumulateCards = new HashMap<>();
+
+        for (String username : getPlayerNames()) {
+
+            Card accumulateCard = players.get(username).getHand().calculate();
+            allAccumulateCards.put(username, accumulateCard);
+            players.get(username).setPickedCard(null);
+            players.get(username).setHand(null);
+            players.get(username).setDiscardCounter(0);
+
+        }
+
+        Card accumulateCard1 = allAccumulateCards.get(0);
+        Card accumulateCard2 = allAccumulateCards.get(1);
+        int points1 = 0;
+        int points2 = 0;
+
+
+        if (accumulateCard1.getMagicPoint() > accumulateCard2.getMagicPoint()) {
+            points1++;
+        } else if (accumulateCard1.getMagicPoint() < accumulateCard2.getMagicPoint()) {
+            points2++;
+        }
+
+        if (accumulateCard1.getStrengthPoint() > accumulateCard2.getStrengthPoint()) {
+            points1++;
+        } else if (accumulateCard1.getStrengthPoint() < accumulateCard2.getStrengthPoint()) {
+            points2++;
+        }
+
+        if (accumulateCard1.getIntelligencePoint() > accumulateCard2.getIntelligencePoint()) {
+            points1++;
+        } else if (accumulateCard1.getIntelligencePoint() < accumulateCard2.getIntelligencePoint()) {
+            points2++;
+        }
+
+        int result = points1 - points2;
+
+
+        if (result > 0) {
+            players.get(0).setPoint(1);
+        } else if (result < 0) {
+            players.get(1).setPoint(1);
+        } else {
+            players.get(0).setPoint(0);
+            players.get(1).setPoint(0);
+        }
+
+
+        if (deck.deckSize() < MINIMUM_DECK_SIZE) {
+            this.state = State.FINISHED;
+        }
+
 
     }
 
-    public void nextBattle() {
-
-        Player player1 = players.get(0);
-        Player player2 = players.get(1);
-
-        player1.setHand(new Hand());
-        player2.setHand(new Hand());
-
-        player1.setPickedCard(null);
-        player2.setPickedCard(null);
-
-        player1.setDiscardCounter(0);
-        player1.setDiscardCounter(0);
+    public long getId() {
+        return id;
     }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public Player getPlayer(String username) {
+        return players.get(username);
+    }
+
+    public List<String> getPlayerNames() {
+        return new ArrayList<>(players.keySet());
+    }
+
+    public Map<String, Hand> getHands() {
+
+        Map<String, Hand> hands = new HashMap<>();
+
+        for (String user : getPlayerNames()) {
+            Player player = players.get(user);
+            hands.put(user, player.getHand());
+        }
+        return hands;
+    }
+
 
 }

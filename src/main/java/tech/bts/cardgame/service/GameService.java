@@ -9,6 +9,7 @@ import tech.bts.cardgame.model.GameUser;
 import tech.bts.cardgame.repository.GameRepository;
 
 import java.util.Collection;
+import java.util.List;
 
 @Service
 public class GameService {
@@ -44,8 +45,13 @@ public class GameService {
         return game.pickCard(gameUser.getUsername());
     }
 
-    public Collection<Game> getGames() {
+    public List<Game> getGames() {
 
         return gameRepo.getAll();
+    }
+
+    public Game getGameById(long gameId) {
+
+        return gameRepo.getById(gameId);
     }
 }

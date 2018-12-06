@@ -14,10 +14,6 @@ public class Deck {
 
     public void add (Card card){ deck.add(card); }
 
-    public List<Card> getDeck() {
-        return deck;
-    }
-
     public void generate() {
 
         for (int magicPoint = 1; magicPoint <= 8; magicPoint++) {
@@ -56,6 +52,10 @@ public class Deck {
         }
 
         return new Hand(cards);
+    }
+
+    public List<Card> getDeck() {
+        return deck;
     }
 
     public int deckSize() {
