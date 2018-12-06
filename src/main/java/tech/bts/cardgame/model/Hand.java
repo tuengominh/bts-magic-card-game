@@ -6,12 +6,10 @@ import java.util.List;
 public class Hand {
 
     private List<Card> hand;
-    //private int point;
 
     public Hand(List<Card> cards) {
 
         this.hand = cards;
-        //this.point = 0;
     }
 
     public Hand(){

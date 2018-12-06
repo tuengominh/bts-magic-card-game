@@ -12,7 +12,7 @@ public class Player {
         this.name = name;
         this.discardCounter = 0;
         this.pickedCard = null;
-        this.hand = null;
+        this.hand = new Hand();
         this.point = 0;
     }
 

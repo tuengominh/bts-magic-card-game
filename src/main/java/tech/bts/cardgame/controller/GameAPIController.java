@@ -20,6 +20,10 @@ public class GameAPIController {
         this.gameService = gameService;
     }
 
+    @RequestMapping(method = RequestMethod.GET)
+    public List<Game> getGames() {
+        return gameService.getGames();
+    }
     @RequestMapping(method = RequestMethod.POST)
     public long createGame() {
         Game game = gameService.createGame();
@@ -36,10 +40,5 @@ public class GameAPIController {
     public Card pickCard(@RequestBody GameUser gameUser, @PathVariable("gameId") long gameId) {
         gameUser.setGameId(gameId);
         return gameService.pickCard(gameUser);
-    }
-
-    @RequestMapping(method = RequestMethod.GET)
-    public List<Game> getGames() {
-        return gameService.getGames();
     }
 }

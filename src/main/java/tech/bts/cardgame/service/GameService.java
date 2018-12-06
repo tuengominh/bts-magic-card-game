@@ -26,8 +26,8 @@ public class GameService {
         Deck deck = new Deck();
         deck.generate();
         deck.shuffle();
-        Game game = new Game(deck);
 
+        Game game = new Game(deck);
         gameRepo.create(game);
 
         return game;
@@ -46,12 +46,10 @@ public class GameService {
     }
 
     public List<Game> getGames() {
-
         return gameRepo.getAll();
     }
 
     public Game getGameById(long gameId) {
-
         return gameRepo.getById(gameId);
     }
 }

@@ -31,22 +31,8 @@ public class GameWebController {
         this.gameService = gameService;
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/create")
-    public void createGame(HttpServletResponse response) throws IOException {
-        gameService.createGame();
-        response.sendRedirect("/games");
-    }
-
-    @RequestMapping(method = RequestMethod.GET, path = "/{gameId}/join")
-    public void joinGame(HttpServletResponse response, @PathVariable long gameId) throws IOException {
-        GameUser gameUser = new GameUser(gameId, "Monica");
-        gameService.joinGame(gameUser);
-        response.sendRedirect("/games/" + gameId);
-    }
-
-
     @RequestMapping(method = RequestMethod.GET)
-    public String displayGames() throws IOException {
+    public String displayGames() { //throws IOException
         return buildGameList();
 
         /** TemplateLoader loader = new ClassPathTemplateLoader();
@@ -67,6 +53,7 @@ public class GameWebController {
 
         Game game = gameService.getGameById(gameId);
         String result = "<h1>Game " + game.getId() + "</h1> <a href=\"/games\" <p>Go back to the games</p></a><p>State: " + game.getState() + "</p><p>Players: " + game.getPlayerNames() + "</p>";
+
         if (game.getState() == Game.State.OPEN) {
             result += "<p><a href=\"/games/" + game.getId() + "/join\"> Join this game</p>";
         }
@@ -85,14 +72,31 @@ public class GameWebController {
         return template.apply(map); */
     }
 
+    @RequestMapping(method = RequestMethod.GET, path = "/create")
+    public void createGame(HttpServletResponse response) throws IOException {
+        gameService.createGame();
+        response.sendRedirect("/games");
+
+        //return buildGameList();
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/{gameId}/join")
+    public void joinGame(HttpServletResponse response, @PathVariable long gameId) throws IOException {
+        GameUser gameUser = new GameUser(gameId, "Tue");
+        gameService.joinGame(gameUser);
+        response.sendRedirect("/games/" + gameId);
+    }
+
     private String buildGameList() {
-        String result = "<h1>List of games</h1><p><a href=\"/games/create\">Create game</a></p><ul>";
-        List<Game> games = gameService.getGames();
-        for (Game game : games) {
-            //String players = joinStrings(game.getPlayersName(), " VS ");
-            result += "<a href=\"/games/" + game.getId() + "\" target=\"_blank\"><li>Game ID: " + game.getId() + "</a> State: " + game.getState() + " Players: " + game.getPlayerNames() + "</li>";
+        String result = "<h1>List of games</h1>";
+        result += "<p><a href=\"/games/create\">Create game</a></p>";
+
+        result += "<ul style=\"list-style-type:square\">\n";
+        for (Game game : gameService.getGames()) {
+            result += "<li><a href=\"/games/" + game.getId() + "\">Game " + game.getId() + "</a> is " + game.getState() + "</li>\n";
         }
         result += "</ul>";
+
         return result;
     }
 }

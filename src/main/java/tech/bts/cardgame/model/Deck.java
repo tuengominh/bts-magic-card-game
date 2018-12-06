@@ -43,7 +43,7 @@ public class Deck {
         return this.deck.remove(deck.size() - 1);
     }
 
-    public Hand deal(int dealSize) {
+    /** public Hand deal(int dealSize) {
 
         List<Card> cards = new ArrayList<>();
 
@@ -52,7 +52,7 @@ public class Deck {
         }
 
         return new Hand(cards);
-    }
+    } */
 
     public List<Card> getDeck() {
         return deck;
