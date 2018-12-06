@@ -168,73 +168,21 @@ public class Game {
 
     public void battle () {
 
-        /** Player player1 = players.get(0);
-        Player player2 = players.get(1);
-
-        Hand hand1 = player1.getHand();
-        Hand hand2 = player2.getHand();
-        int points1 = 0;
-        int points2 = 0;
-
-        if(deck.deckSize() < MINIMUM_DECK_SIZE) {
-            this.state = State.FINISHED;
-        }
-
-        Card accumulateCard1 = hand1.calculate();
-        Card accumulateCard2 = hand2.calculate();
-
-        if (accumulateCard1.getMagicPoint() > accumulateCard2.getMagicPoint()) {
-            points1++;
-        } else if (accumulateCard1.getMagicPoint() < accumulateCard2.getMagicPoint()) {
-            points2++;
-        }
-
-        if (accumulateCard1.getStrengthPoint() > accumulateCard2.getStrengthPoint()) {
-            points1++;
-        } else if (accumulateCard1.getStrengthPoint() < accumulateCard2.getStrengthPoint()) {
-            points2++;
-        }
-
-        if (accumulateCard1.getIntelligencePoint() > accumulateCard2.getIntelligencePoint()) {
-            points1++;
-        } else if (accumulateCard1.getIntelligencePoint() < accumulateCard2.getIntelligencePoint()) {
-            points2++;
-        }
-
-        int result = points1 - points2;
-
-        if (result < 0) {
-            hand2.setPoint(1);
-
-        } else if (result > 0) {
-            hand1.setPoint(1);
-        }
-
-        player1.setHand(hand1);
-        players.put(player1.getName(), player1);
-        player1.setPoint(hand1.getPoint());
-
-        player2.setHand(hand2);
-        players.put(player2.getName(), player2);
-        player2.setPoint(hand2.getPoint()); */
-
         Map<String, Card> allAccumulateCards = new HashMap<>();
 
         for (String username : getPlayerNames()) {
 
-            Card accumulateCard = players.get(username).getHand().calculate();
-            allAccumulateCards.put(username, accumulateCard);
+            allAccumulateCards.put(username, players.get(username).getHand().calculate());
             players.get(username).setPickedCard(null);
             players.get(username).setHand(null);
             players.get(username).setDiscardCounter(0);
 
         }
 
-        Card accumulateCard1 = allAccumulateCards.get(0);
-        Card accumulateCard2 = allAccumulateCards.get(1);
+        Card accumulateCard1 = allAccumulateCards.get(getPlayerNames().get(0));
+        Card accumulateCard2 = allAccumulateCards.get(getPlayerNames().get(1));
         int points1 = 0;
         int points2 = 0;
-
 
         if (accumulateCard1.getMagicPoint() > accumulateCard2.getMagicPoint()) {
             points1++;
@@ -256,22 +204,18 @@ public class Game {
 
         int result = points1 - points2;
 
-
         if (result > 0) {
-            players.get(0).setPoint(1);
+            players.get(getPlayerNames().get(0)).setPoint(1);
         } else if (result < 0) {
-            players.get(1).setPoint(1);
+            players.get(getPlayerNames().get(1)).setPoint(1);
         } else {
-            players.get(0).setPoint(0);
-            players.get(1).setPoint(0);
+            players.get(getPlayerNames().get(0)).setPoint(0);
+            players.get(getPlayerNames().get(1)).setPoint(0);
         }
-
 
         if (deck.deckSize() < MINIMUM_DECK_SIZE) {
             this.state = State.FINISHED;
         }
-
-
     }
 
     public long getId() {
@@ -293,17 +237,5 @@ public class Game {
     public List<String> getPlayerNames() {
         return new ArrayList<>(players.keySet());
     }
-
-    public Map<String, Hand> getHands() {
-
-        Map<String, Hand> hands = new HashMap<>();
-
-        for (String user : getPlayerNames()) {
-            Player player = players.get(user);
-            hands.put(user, player.getHand());
-        }
-        return hands;
-    }
-
 
 }
