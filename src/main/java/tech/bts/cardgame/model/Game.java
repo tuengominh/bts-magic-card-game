@@ -89,8 +89,6 @@ public class Game {
 
         if (discardCounter == MAXIMUM_DISCARD) {
             autoFill(username);
-        } else {
-            throw new DidNotFinishDiscardingException();
         }
 
         int handsFilled = 0;
