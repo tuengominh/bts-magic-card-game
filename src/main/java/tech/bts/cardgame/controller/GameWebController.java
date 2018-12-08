@@ -48,7 +48,7 @@ public class GameWebController {
         Template template = handlebars.compile("detailGame");
 
         Map<String, Game> map = new HashMap<>();
-        map.put("games", game);
+        map.put("game", game);
 
         String result = template.apply(map);
 
