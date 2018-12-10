@@ -6,4 +6,10 @@
     <p>state : {{state}}</p>
     <p>players : {{playerNames}}</p>
 
+    <div class="entry">
+        {{#if author}}
+            <button onclick= location.href='/games/{{id}}/join' type= button>Join this game</button>
+        {{/if}}
+    </div>
+
 {{/game}}

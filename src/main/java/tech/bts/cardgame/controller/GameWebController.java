@@ -49,13 +49,13 @@ public class GameWebController {
 
         Map<String, Game> map = new HashMap<>();
         map.put("game", game);
+        map.put("canJoin", BOOLEAN_EXPRESSION);
 
-        String result = template.apply(map);
-
-        if (game.getState() == Game.State.OPEN) {
-            result += "<button onclick= location.href=\"/games/" + game.getId() + "/join\">Join this game</button></h2>";
-        }
-        return result;
+        //String result = template.apply(map);
+        //if (game.getState() == Game.State.OPEN) {
+        //    result += "<button onclick= location.href=\"/games/" + game.getId() + "/join\">Join this game</button>";
+        //}
+        return template.apply(map);
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/create")
