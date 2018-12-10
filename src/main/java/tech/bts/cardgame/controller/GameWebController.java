@@ -55,6 +55,7 @@ public class GameWebController {
         //if (game.getState() == Game.State.OPEN) {
         //    result += "<button onclick= location.href=\"/games/" + game.getId() + "/join\">Join this game</button>";
         //}
+
         return template.apply(map);
     }
 
