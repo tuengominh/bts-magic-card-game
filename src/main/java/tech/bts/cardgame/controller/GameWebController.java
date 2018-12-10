@@ -47,11 +47,9 @@ public class GameWebController {
         Handlebars handlebars = new Handlebars(loader);
         Template template = handlebars.compile("detailGame");
 
-        Map<String, Game> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         map.put("game", game);
-
-        boolean isOpen = game.getState() == Game.State.OPEN;
-        map.put("canJoin", isOpen);
+        map.put("isOpen", game.getState() == Game.State.OPEN);
 
         //String result = template.apply(map);
         //if (game.getState() == Game.State.OPEN) {
@@ -81,7 +79,7 @@ public class GameWebController {
         Handlebars handlebars = new Handlebars(loader);
         Template template = handlebars.compile("games");
 
-        Map<String, Collection<Game>> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         map.put("games", gameService.getGames());
 
         return template.apply(map);
