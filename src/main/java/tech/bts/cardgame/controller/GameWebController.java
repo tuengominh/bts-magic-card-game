@@ -15,7 +15,6 @@ import tech.bts.cardgame.service.GameService;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,7 +31,17 @@ public class GameWebController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String displayGames() throws IOException {
-        return buildGameList();
+        TemplateLoader loader = new ClassPathTemplateLoader();
+        loader.setPrefix("/templates");
+        loader.setSuffix(".html.hbs");
+
+        Handlebars handlebars = new Handlebars(loader);
+        Template template = handlebars.compile("games");
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("games", gameService.getGames());
+
+        return template.apply(map);
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/{gameId}")
@@ -70,19 +79,5 @@ public class GameWebController {
         GameUser gameUser = new GameUser(gameId, "tue");
         gameService.joinGame(gameUser);
         response.sendRedirect("/games/" + gameId);
-    }
-
-    private String buildGameList() throws IOException {
-        TemplateLoader loader = new ClassPathTemplateLoader();
-        loader.setPrefix("/templates");
-        loader.setSuffix(".html.hbs");
-
-        Handlebars handlebars = new Handlebars(loader);
-        Template template = handlebars.compile("games");
-
-        Map<String, Object> map = new HashMap<>();
-        map.put("games", gameService.getGames());
-
-        return template.apply(map);
     }
 }
