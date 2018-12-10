@@ -1,9 +1,13 @@
 {{#game}}
-    <p><a href='/games'>Go back to Game List</a></p>
+    <p><a href="/games">Go back to Game List</a></p>
     <h1>Game {{id}}</h1>
-    <p>state : {{state}}</p>
-    <p>players : {{playerNames}}</p>
+    <p>State : {{state}}</p>
+    <p>Players : {{playerNames}}</p>
     {{#if isOpen}}
-        <button onclick= location.href='/games/{{id}}/join' type= button>Join this game</button>
+        <form action= "/games/join" method= "post">
+            <input type= "hidden" name= "gameId" value= "{{id}}">
+            Username: <input type="text" name= "username">
+            <button>Join this game</button>
+        </form>
     {{/if}}
 {{/game}}

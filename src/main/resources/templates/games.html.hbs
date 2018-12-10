@@ -1,7 +1,7 @@
 <h1>List of Games</h1>
-<button onclick= location.href='/games/create' type= button>Create game</button>
+<button onclick= location.href="/games/create" type= button>Create game</button>
 <ul style=\"list-style-type:square\">
 {{#each games}}
-    <li><a href='/games/{{id}}'>Game {{id}}</a> is {{state}}</li>
+    <li><a href= "/games/{{id}}">Game {{id}}</a> is {{state}}</li>
 {{/each}}
 </ul>

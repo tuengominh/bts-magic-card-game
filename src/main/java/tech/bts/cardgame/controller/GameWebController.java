@@ -2,6 +2,7 @@ package tech.bts.cardgame.controller;
 
 import com.github.jknack.handlebars.Template;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,6 +13,7 @@ import tech.bts.cardgame.service.GameService;
 import tech.bts.cardgame.util.HandlebarsUtil;
 
 import javax.servlet.http.HttpServletResponse;
+import java.awt.*;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -57,10 +59,9 @@ public class GameWebController {
         response.sendRedirect("/games");
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/{gameId}/join")
-    public void joinGame(HttpServletResponse response, @PathVariable long gameId) throws IOException {
-        GameUser gameUser = new GameUser(gameId, "tue");
+    @RequestMapping(method = RequestMethod.POST, path = "/join", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public void joinGame(HttpServletResponse response, GameUser gameUser) throws IOException {
         gameService.joinGame(gameUser);
-        response.sendRedirect("/games/" + gameId);
+        response.sendRedirect("/games/" + gameUser.getGameId());
     }
 }
