@@ -20,7 +20,6 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.POST, path = "/users")
     public void register(@RequestBody User user) {
-
         System.out.println("Registering user " + user.getName());
         userRepository.create(user);
     }

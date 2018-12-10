@@ -1,15 +1,24 @@
 package tech.bts.cardgame.util;
 
 import com.github.jknack.handlebars.Handlebars;
+import com.github.jknack.handlebars.Template;
 import com.github.jknack.handlebars.io.ClassPathTemplateLoader;
 import com.github.jknack.handlebars.io.TemplateLoader;
 
+import java.io.IOException;
+
 public class HandlebarsUtil {
 
-    public static Handlebars getHandleBars() {
+    private static Handlebars handlebars;
+
+    static {
         TemplateLoader loader = new ClassPathTemplateLoader();
         loader.setPrefix("/templates");
         loader.setSuffix(".html.hbs");
-        return new Handlebars(loader);
+        handlebars = new Handlebars(loader);
+    }
+
+    public static Template compile(String templateName) throws IOException {
+        return handlebars.compile(templateName);
     }
 }

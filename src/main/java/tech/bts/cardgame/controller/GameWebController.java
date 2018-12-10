@@ -29,22 +29,16 @@ public class GameWebController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String displayGames() throws IOException {
-
-        Template template = HandlebarsUtil.getHandleBars().compile("games");
-
+        Template template = HandlebarsUtil.compile("games");
         Map<String, Object> map = new HashMap<>();
         map.put("games", gameService.getGames());
-
         return template.apply(map);
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/{gameId}")
     public String displayGameById(@PathVariable long gameId) throws IOException {
-
         Game game = gameService.getGameById(gameId);
-
-        Template template = HandlebarsUtil.getHandleBars().compile("detailGame");
-
+        Template template = HandlebarsUtil.compile("detailGame");
         Map<String, Object> map = new HashMap<>();
         map.put("game", game);
         map.put("isOpen", game.getState() == Game.State.OPEN);

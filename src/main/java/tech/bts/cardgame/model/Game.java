@@ -28,66 +28,48 @@ public class Game {
     }
 
     public Player join(String username) {
-
         if (!state.equals(State.OPEN)) {
             throw new JoiningNotAllowedException();
         }
-
         players.put(username, new Player(username));
-
         if (players.size() == MAXIMUM_PLAYER_NUM) {
             this.state = State.PLAYING;
         }
-
         return new Player(username);
     }
 
     public Card pickCard(String username) {
-
         if (!this.getPlayerNames().contains(username)) {
             throw new PlayerNotInTheGameException();
         }
-
         if (!state.equals(State.PLAYING)) {
             throw new NotPlayingException();
         }
-
         Player player = players.get(username);
-
         if(player.getHand().handSize() >= HAND_SIZE) {
             throw new HandSizeLimitExceededException();
         }
-
         if (player.getPickedCard() != null) {
             throw new CannotPick2CardsInARowException();
         }
-
         Card pickedCard = deck.pickCard();
-
         player.setPickedCard(pickedCard);
-
         return pickedCard;
     }
 
     public void discard(String username) {
-
         Player player = players.get(username);
-
         if (player.getPickedCard() == null) {
             throw new CannotActWithoutPreviouslyPickingException();
         }
-
         if (player.getDiscardCounter() >= MAXIMUM_DISCARD) {
             throw new MaximumDiscardLimitExceededException();
         }
-
         player.setPickedCard(null);
         player.setDiscardCounter(player.getDiscardCounter() + 1);
-
         if (player.getDiscardCounter() == MAXIMUM_DISCARD) {
             autoFill(username);
         }
-
         int handsFilled = 0;
         for (String name : getPlayerNames()) {
             player = players.get(name);
@@ -95,16 +77,13 @@ public class Game {
                 handsFilled++;
             }
         }
-
         if (handsFilled == 2) {
             battle();
         }
-
     }
 
     public void keep(String username) {
         Player player = players.get(username);
-
         if (player.getPickedCard() != null) {
             Hand hand = player.getHand();
             if (hand.handSize() < HAND_SIZE) {
@@ -117,7 +96,6 @@ public class Game {
         } else {
             throw new CannotActWithoutPreviouslyPickingException();
         }
-
         int handsFilled = 0;
         for (String name : getPlayerNames()) {
             player = players.get(name);
@@ -125,16 +103,13 @@ public class Game {
                 handsFilled++;
             }
         }
-
         if (handsFilled == 2) {
             battle();
         }
     }
 
     public void autoFill(String username) {
-
         Player player = players.get(username);
-
         if (player.getDiscardCounter() == MAXIMUM_DISCARD) {
             Hand hand = player.getHand();
             while (hand.handSize() < HAND_SIZE) {
@@ -145,43 +120,33 @@ public class Game {
     }
 
     public void battle() {
-
         Map<String, Card> allAccumulateCards = new HashMap<>();
-
         for (String username : getPlayerNames()) {
-
             allAccumulateCards.put(username, players.get(username).getHand().calculate());
             players.get(username).setPickedCard(null);
             players.get(username).setHand(new Hand());
             players.get(username).setDiscardCounter(0);
-
         }
-
         Card accumulateCard1 = allAccumulateCards.get(getPlayerNames().get(0));
         Card accumulateCard2 = allAccumulateCards.get(getPlayerNames().get(1));
         int points1 = 0;
         int points2 = 0;
-
         if (accumulateCard1.getMagicPoint() > accumulateCard2.getMagicPoint()) {
             points1++;
         } else if (accumulateCard1.getMagicPoint() < accumulateCard2.getMagicPoint()) {
             points2++;
         }
-
         if (accumulateCard1.getStrengthPoint() > accumulateCard2.getStrengthPoint()) {
             points1++;
         } else if (accumulateCard1.getStrengthPoint() < accumulateCard2.getStrengthPoint()) {
             points2++;
         }
-
         if (accumulateCard1.getIntelligencePoint() > accumulateCard2.getIntelligencePoint()) {
             points1++;
         } else if (accumulateCard1.getIntelligencePoint() < accumulateCard2.getIntelligencePoint()) {
             points2++;
         }
-
         int result = points1 - points2;
-
         if (result > 0) {
             players.get(getPlayerNames().get(0)).setPoint(1);
         } else if (result < 0) {
@@ -190,11 +155,9 @@ public class Game {
             players.get(getPlayerNames().get(0)).setPoint(0);
             players.get(getPlayerNames().get(1)).setPoint(0);
         }
-
         if (deck.deckSize() < MINIMUM_DECK_SIZE) {
             this.state = State.FINISHED;
         }
-
     }
 
     public long getId() {

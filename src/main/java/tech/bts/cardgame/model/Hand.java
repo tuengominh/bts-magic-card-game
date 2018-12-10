@@ -8,7 +8,6 @@ public class Hand {
     private List<Card> hand;
 
     public Hand(List<Card> cards) {
-
         this.hand = cards;
     }
 
@@ -22,11 +21,9 @@ public class Hand {
     }
 
     public Card calculate() {
-
         int magic = 0;
         int strength = 0;
         int intelligence = 0;
-
         for (Card card : hand) {
             magic += card.getMagicPoint();
             strength += card.getStrengthPoint();
@@ -37,17 +34,13 @@ public class Hand {
 
     @Override
     public String toString(){
-
         String result = "";
-
         result += "This hand includes " + this.hand.size() + " cards: ";
-
         for (int i = 0; i < hand.size(); i++) {
             result += "\n";
             result += hand.get(i).toString();
             result += " ";
         }
-
         return result;
     }
 
