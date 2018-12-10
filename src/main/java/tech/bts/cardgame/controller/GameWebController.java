@@ -49,7 +49,9 @@ public class GameWebController {
 
         Map<String, Game> map = new HashMap<>();
         map.put("game", game);
-        map.put("canJoin", BOOLEAN_EXPRESSION);
+
+        boolean isOpen = game.getState() == Game.State.OPEN;
+        map.put("canJoin", isOpen);
 
         //String result = template.apply(map);
         //if (game.getState() == Game.State.OPEN) {
