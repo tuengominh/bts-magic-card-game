@@ -24,6 +24,7 @@ public class GameAPIController {
     public List<Game> getGames() {
         return gameService.getGames();
     }
+
     @RequestMapping(method = RequestMethod.POST)
     public long createGame() {
         Game game = gameService.createGame();
