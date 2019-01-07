@@ -1,40 +1,13 @@
+// --- Call the functions you want to try ---
+//basics();
+//functions();
+//arrays();
+//objects();
+//classes();
+dom();
+//events();
 
-let elem = document.getElementById("text");
-elem.textContent = "GAMES";
-console.log(elem.textContent);
-
-let container = document.getElementById("container");
-
-let paragraph = document.createElement("h2");
-paragraph.textContent = "Current game playing";
-container.appendChild(paragraph);
-
-let paragraph2 = document.createElement("h3");
-paragraph2.textContent = "More details";
-container.appendChild(paragraph2);
-
-let player1 = {
-    name: "cat",
-    point: 1,
-};
-
-let player2 = {
-    name: "dog",
-    point: 2,
-};
-
-let player3 = {
-    name: "bird",
-    point: 0,
-};
-
-let array = [player1, player2, player3];
-for (let value of array) {
-    let v = document.createElement("p");
-    v.textContent = value.name + " - " + value.point;
-    container.appendChild(v);
-}
-
+/** Basics: variables, if, while, for */
 function basics() {
 
     // var message = "hello js"; // var is the old keyword
@@ -63,6 +36,7 @@ function basics() {
     }
 }
 
+/** Functions, parameters, arguments, return */
 function functions() {
 
     let result = sum(4, 6);
@@ -79,6 +53,7 @@ function functions() {
     }
 }
 
+/** Arrays, creating, adding (push), looping */
 function arrays() {
 
     let array = [2, 4, 6];
@@ -102,6 +77,7 @@ function arrays() {
     }
 }
 
+/** Objects, properties */
 function objects()
 {
 
@@ -131,6 +107,7 @@ function objects()
     console.log("The property " + attribute + " of car1 is " + car1[attribute]);
 }
 
+/** Classes, constructor, methods, creating objects */
 function classes() {
 
     class Car {
@@ -152,7 +129,7 @@ function classes() {
     car.accelerate(50);
     car.accelerate(20);
 
-
+    // This is a simple object, not created from class
     let car2 = {
         name: "Opel",
         speed: 100
@@ -163,4 +140,64 @@ function classes() {
 
     console.log(car);
     console.log(car2);
+}
+
+/**
+ * Access and modify the DOM (Document Object Model). That means modifying the web page.
+ * The DOM is the internal representation of the web page.
+ * The browser creates the DOM from the HTML.
+ */
+function dom() {
+
+    // Get an element and modify its content
+    let text = document.getElementById("text");
+    text.textContent = "Message set from JavaScript";
+
+    // Create a new element (paragraph) and set its content
+    let paragraph = document.createElement("p");
+    paragraph.textContent = "This is a new paragraph";
+
+    // Add the paragraph to an existing element in the page, so it's visible
+    let container = document.getElementById("container");
+    container.appendChild(paragraph);
+}
+
+/** Events, executing a function when some event occurs */
+function events() {
+
+    // Create a button
+    let button = document.createElement("button");
+    button.textContent = "Display products";
+
+    // Listen to clicks on the button
+    button.onclick = function () {
+        console.log("Button was clicked!");
+        displayProducts();
+    };
+
+    // Add the button to the web page
+    let container = document.getElementById("container");
+    container.appendChild(button);
+
+    function displayProducts() {
+
+        // Getting an element from the HTML
+        let container = document.getElementById("container");
+
+        // Create an array of objects
+        let array = [{name: "tv", price: 200}, {name: "pen", price: 5}];
+
+        let div = document.createElement("div");
+
+        for (let value of array) {
+            // Create a new element (paragraph)
+            let paragraph = document.createElement("p");
+            // Change the content of the paragraph
+            paragraph.textContent = value.name + " costs " + value.price;
+            // Add the paragraph to the container (so it is displayed)
+            div.appendChild(paragraph);
+        }
+
+        container.appendChild(div);
+    }
 }
