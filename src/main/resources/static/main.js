@@ -1,7 +1,39 @@
 
 let elem = document.getElementById("text");
-elem.textContent = "Join a game";
+elem.textContent = "GAMES";
 console.log(elem.textContent);
+
+let container = document.getElementById("container");
+
+let paragraph = document.createElement("h2");
+paragraph.textContent = "Current game playing";
+container.appendChild(paragraph);
+
+let paragraph2 = document.createElement("h3");
+paragraph2.textContent = "More details";
+container.appendChild(paragraph2);
+
+let player1 = {
+    name: "cat",
+    point: 1,
+};
+
+let player2 = {
+    name: "dog",
+    point: 2,
+};
+
+let player3 = {
+    name: "bird",
+    point: 0,
+};
+
+let array = [player1, player2, player3];
+for (let value of array) {
+    let v = document.createElement("p");
+    v.textContent = value.name + " - " + value.point;
+    container.appendChild(v);
+}
 
 function basics() {
 
