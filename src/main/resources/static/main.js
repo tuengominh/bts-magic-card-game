@@ -1,58 +1,129 @@
-//var message = "hello.js"; //var is the old syntax
-//let school = "BTS";
+function basics() {
 
-//console.log("hello " + school + " students!");
-//console.log('hello $(school) students');
+    // var message = "hello js"; // var is the old keyword
+    let name = "Tue";
+    let school = "BTS";
 
-//let age = 20;
+    console.log("I'm " + name + " and I'm in " + school);
+    console.log(`I'm ${name} and I'm in ${school}`);
 
-//if (age >= 18) {
-//    console.log("adult");
-//} else {
-//    console.log("not adult");
-//}
+    let age = 20;
 
-//let i = 1;
-//while (i <= 5) {
-//    console.log(i);
-//    i++;}
+    if (age >= 18) {
+        console.log("adult");
+    } else {
+        console.log("not adult");
+    }
 
-//for (let j = 1; j <= 5; j++) {
-//    console.log(j);
-//}
+    let i = 1;
+    while (i <= 5) {
+        console.log(i);
+        i++;
+    }
 
-//greeting("Tue");
-//function greeting(name) {console.log("hello " + name);}
+    for (let j = 1; j <= 5; j++) {
+        console.log(j);
+    }
+}
 
-//let result = sum(4,6);
-//console.log(result);
-//function sum(a, b) {return a + b;}
+function functions() {
 
-//let array = [2,4,6];
-//let array2 = [];
-//array.push(8);
-//console.log(array[1]);
-//console.log(array);
-//for (let i = 0; i <= array.length; i++) {console.log(array[i]);}
-//for (let value of array) {console.log(value);}
+    let result = sum(4, 6);
+    console.log("The result is " + result);
 
-//let car1 = {
-//    name: "Ferrari",
-//    color: "red",
-//    maxSpeed: 300,
-//    available: true};
+    greet("BTS class");
 
-//let car1 = {
-//    name: "Ford",
-//    maxSpeed: 300,
-//    available: false,
-//    owner: "Tue"};
+    function greet(name) {
+        console.log("Hello " + name);
+    }
 
-//the value "null" in Java can be used in operations, "undefined" in JS cannot
+    function sum(x, y) {
+        return x + y;
+    }
+}
 
-//car2.color = "black"; //add properties to an object
-//console.log(car2.color);
-//console.log(car1[color]);
-//let prop = "color";
-//console.log(car1[prop]);
+function arrays() {
 
+    let array = [2, 4, 6];
+    let array2 = [ ];
+
+    array.push(8);
+    array.push(10);
+
+    let x = array[1];
+
+    console.log("x = " + x);
+    console.log(array);
+    console.log("array = " + array);
+
+    for (let i = 0; i < array.length; i++) {
+        console.log("Value at index " + i + " is " + array[i]);
+    }
+
+    for (let value of array) {
+        console.log(value);
+    }
+}
+
+function objects()
+{
+
+    let car1 = {
+        name: "Ferrari",
+        color: "red",
+        maxSpeed: 300,
+        available: true
+    };
+
+    let car2 = {
+        name: "Ford",
+        maxSpeed: 200,
+        available: false,
+        weight: 1000
+    };
+
+    console.log(car1.name + " has color " + car1.color);
+    console.log(car2.name + " weights " + car2.weight);
+
+    car2.owner = "Tue";
+
+    console.log(car2.name + " is owned by " + car2.owner);
+
+    // Advanced way to access object properties
+    let attribute = "maxSpeed";
+    console.log("The property " + attribute + " of car1 is " + car1[attribute]);
+}
+
+function classes() {
+
+    class Car {
+
+        // You don't declare the fields
+
+        constructor(name, maxSpeed) {
+            this.name = name;
+            this.maxSpeed = maxSpeed;
+            this.speed = 0;
+        }
+
+        accelerate(amount) {
+            this.speed += amount;
+        }
+    }
+
+    let car = new Car("Audi", 250);
+    car.accelerate(50);
+    car.accelerate(20);
+
+
+    let car2 = {
+        name: "Opel",
+        speed: 100
+    };
+
+    console.log("Now the " + car.name + " is running at " + car.speed);
+    console.log("Now the " + car2.name + " is running at " + car2.speed);
+
+    console.log(car);
+    console.log(car2);
+}
