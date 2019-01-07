@@ -1,3 +1,8 @@
+
+let elem = document.getElementById("text");
+elem.textContent = "Join a game";
+console.log(elem.textContent);
+
 function basics() {
 
     // var message = "hello js"; // var is the old keyword
