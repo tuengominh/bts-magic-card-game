@@ -4,7 +4,7 @@
 //arrays();
 //objects();
 //classes();
-dom();
+//dom();
 //events();
 
 /** Basics: variables, if, while, for */
@@ -197,7 +197,6 @@ function events() {
             // Add the paragraph to the container (so it is displayed)
             div.appendChild(paragraph);
         }
-
         container.appendChild(div);
     }
 }
