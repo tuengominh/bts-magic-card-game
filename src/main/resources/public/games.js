@@ -1,3 +1,12 @@
+//for the homework
+/** const urlParams = new URLSearchParams(window.location.search);
+const gameId = urlParams.get("gameId");
+console.log(gameId);
+const gamesPromise = fetch("http://localhost:8080/api/games" + gameId);
+
+url: /?gameId=1
+*/
+
 const gamesPromise = fetch("http://localhost:8080/api/games");
 //a promise is an object that will contain the data in a while
 
@@ -18,3 +27,4 @@ gamesPromise
         c.appendChild(p);
     }
 });
+
