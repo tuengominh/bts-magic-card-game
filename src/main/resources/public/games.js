@@ -1,12 +1,3 @@
-//for the homework
-/** const urlParams = new URLSearchParams(window.location.search);
-const gameId = urlParams.get("gameId");
-console.log(gameId);
-const gamesPromise = fetch("http://localhost:8080/api/games" + gameId);
-
-url: /?gameId=1
-*/
-
 const gamesPromise = fetch("http://localhost:8080/api/games");
 //a promise is an object that will contain the data in a while
 
@@ -16,15 +7,17 @@ gamesPromise
     //this anonymous function will be called when the data comes after a while
     console.log(games);
 
-    for (let game of games) {
-        console.log(`${game.id} - ${game.state}`);
-    }
-
-    let c = document.getElementById("container");
+    const c = document.getElementById("container");
     for (let game of games) {
         const p = document.createElement("li");
-        p.textContent = `${game.id} - ${game.state}`;
+        p.textContent = `Game ${game.id} is ${game.state}`;
+
+        const a = document.createElement("a");
+        a.appendChild(document.createTextNode("Go to this game"));
+        a.href = "http://localhost:8080/game.html?gameId=" + game.id;
+
         c.appendChild(p);
+        c.appendChild(a);
     }
 });
 

@@ -26,7 +26,7 @@ public class GameAPIController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/{gameId}")
-    public Game getGameById(@PathVariable("gameId") long gameId) {
+    public Game getGameById(@PathVariable long gameId) {
         return gameService.getGameById(gameId);
     }
 
