@@ -180,10 +180,6 @@ public class Game {
         return players.get(username);
     }
 
-    public void setPlayers(Map<String, Player> players) {
-        this.players = players;
-    }
-
     public List<String> getPlayerNames() {
         return new ArrayList<>(players.keySet());
     }

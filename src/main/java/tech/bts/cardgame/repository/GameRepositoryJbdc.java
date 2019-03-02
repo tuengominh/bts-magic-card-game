@@ -17,72 +17,55 @@ public class GameRepositoryJbdc {
 
     private Map<Long, Game> gameMap;
     //private long nextId;
-    private ResultSet rs;
 
     public GameRepositoryJbdc() throws SQLException{
         gameMap = new HashMap<>();
         //nextId = 0;
-        rs = DataSourceUtil.getDataSourceInPath().getConnection().createStatement().executeQuery("select * from games");
     }
 
-    public void create(Game game) {
+    public void create(ResultSet rs) throws SQLException {
+
         //TODO: double-check create method
         //game.setId(nextId);
-        gameMap.put(game.getId(), game);
-        //nextId++;
-    }
 
-    public Game getById(long id) throws SQLException{
-
-        rs = DataSourceUtil.getDataSourceInPath().getConnection().createStatement().executeQuery("select * from games WHERE id = " + id);
-        String state = rs.getString("state");
+        int id = rs.getInt("id");
+        String state = rs.getString("state"); //TODO: necessary?
         String players = rs.getString("players");
 
         Game g = new Game(new Deck());
         g.setId(id);
-        if (players != null){
+
+        if(players != null){
             String[] playersArray = players.split(",");
             for ( String player : playersArray) {
                 g.join(player);
             }
         }
-        g.setState(Game.State.valueOf(state));
-        create(g);
+
+        g.setState(Game.State.valueOf(state)); //TODO: necessary?
+
+        gameMap.put(g.getId(), g);
 
         rs.close();
         DataSourceUtil.getDataSourceInPath().getConnection().createStatement().close();
         DataSourceUtil.getDataSourceInPath().getConnection().close();
 
+        //nextId++;
+    }
+
+    public Game getById(long id) throws SQLException{
+
+        ResultSet rs = DataSourceUtil.getDataSourceInPath().getConnection().createStatement().executeQuery("select * from games WHERE id = " + id);
+        create(rs);
         return gameMap.get(id);
     }
 
     public List<Game> getAll() throws SQLException{
 
-        rs = DataSourceUtil.getDataSourceInPath().getConnection().createStatement().executeQuery("select * from games");
-
+        ResultSet rs = DataSourceUtil.getDataSourceInPath().getConnection().createStatement().executeQuery("select * from games");
         while (rs.next()) {
-            int id = rs.getInt("id");
-            String state = rs.getString("state");
-            String players = rs.getString("players");
-
-            System.out.println(id + ", " + state + ", " + players);
-
-            Game g = new Game(new Deck());
-            g.setId(id);
-            if (players != null){
-                String[] playersArray = players.split(",");
-                for ( String player : playersArray) {
-                    g.join(player);
-                }
-            }
-            g.setState(Game.State.valueOf(state));
-            create(g);
+            create(rs);
         }
-
-        rs.close();
-        DataSourceUtil.getDataSourceInPath().getConnection().createStatement().close();
-        DataSourceUtil.getDataSourceInPath().getConnection().close();
-
         return new ArrayList<>(gameMap.values());
     }
 }
