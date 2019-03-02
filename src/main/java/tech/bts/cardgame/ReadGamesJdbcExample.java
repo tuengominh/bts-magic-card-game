@@ -36,6 +36,6 @@ public class ReadGamesJdbcExample {
         connection.close();
 
         System.out.println(new GameRepositoryJbdc().getAll());
-        System.out.println(new GameRepositoryJbdc().getById(1));
+        System.out.println(new GameRepositoryJbdc().getById(0));
     }
 }

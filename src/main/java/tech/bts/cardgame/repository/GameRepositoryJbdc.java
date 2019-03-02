@@ -40,12 +40,19 @@ public class GameRepositoryJbdc {
 
         Game g = new Game(new Deck());
         g.setId(id);
-        g.setState(Game.State.valueOf(state));
-        String[] playersArray = players.split(",");
-        for ( String player : playersArray) {
-            g.join(player);
+        if (players != null){
+            String[] playersArray = players.split(",");
+            for ( String player : playersArray) {
+                g.join(player);
+            }
         }
+        g.setState(Game.State.valueOf(state));
         create(g);
+
+        rs.close();
+        DataSourceUtil.getDataSourceInPath().getConnection().createStatement().close();
+        DataSourceUtil.getDataSourceInPath().getConnection().close();
+
         return gameMap.get(id);
     }
 
@@ -62,11 +69,13 @@ public class GameRepositoryJbdc {
 
             Game g = new Game(new Deck());
             g.setId(id);
-            g.setState(Game.State.valueOf(state));
-            String[] playersArray = players.split(",");
-            for ( String player : playersArray) {
-                g.join(player);
+            if (players != null){
+                String[] playersArray = players.split(",");
+                for ( String player : playersArray) {
+                    g.join(player);
+                }
             }
+            g.setState(Game.State.valueOf(state));
             create(g);
         }
 
