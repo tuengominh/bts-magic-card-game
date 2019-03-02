@@ -13,12 +13,12 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class GameRepositoryJbdc {
+public class GameRepositoryJdbc {
 
     private Map<Long, Game> gameMap;
     //private long nextId;
 
-    public GameRepositoryJbdc() throws SQLException{
+    public GameRepositoryJdbc() throws SQLException{
         gameMap = new HashMap<>();
         //nextId = 0;
     }

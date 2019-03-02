@@ -1,6 +1,6 @@
 package tech.bts.cardgame;
 
-import tech.bts.cardgame.repository.GameRepositoryJbdc;
+import tech.bts.cardgame.repository.GameRepositoryJdbc;
 import tech.bts.cardgame.util.DataSourceUtil;
 
 import javax.sql.DataSource;
@@ -35,7 +35,7 @@ public class ReadGamesJdbcExample {
         statement.close();
         connection.close();
 
-        System.out.println(new GameRepositoryJbdc().getAll());
-        System.out.println(new GameRepositoryJbdc().getById(0));
+        System.out.println(new GameRepositoryJdbc().getAll());
+        System.out.println(new GameRepositoryJdbc().getById(0));
     }
 }
