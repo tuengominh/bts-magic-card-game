@@ -172,6 +172,10 @@ public class Game {
         return state;
     }
 
+    public void setState(State state) {
+        this.state = state;
+    }
+
     public Player getPlayer(String username) {
         return players.get(username);
     }
