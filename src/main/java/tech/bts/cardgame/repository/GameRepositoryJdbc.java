@@ -18,7 +18,7 @@ public class GameRepositoryJdbc {
     private Map<Long, Game> gameMap;
     //private long nextId;
 
-    public GameRepositoryJdbc() throws SQLException{
+    public GameRepositoryJdbc(){
         gameMap = new HashMap<>();
         //nextId = 0;
     }
@@ -28,21 +28,17 @@ public class GameRepositoryJdbc {
         //TODO: double-check create method
         //game.setId(nextId);
 
-        int id = rs.getInt("id");
-        String state = rs.getString("state"); //TODO: necessary?
-        String players = rs.getString("players");
-
         Game g = new Game(new Deck());
-        g.setId(id);
+        g.setId(rs.getInt("id"));
 
-        if(players != null){
-            String[] playersArray = players.split(",");
+        if(rs.getString("players") != null){
+            String[] playersArray = rs.getString("players").split(",");
             for ( String player : playersArray) {
                 g.join(player);
             }
         }
 
-        g.setState(Game.State.valueOf(state)); //TODO: necessary?
+        g.setState(Game.State.valueOf(rs.getString("state"))); //TODO: necessary?
 
         gameMap.put(g.getId(), g);
 

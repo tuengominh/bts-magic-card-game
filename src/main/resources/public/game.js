@@ -15,6 +15,12 @@ function displayGame(game) {
 
     let c = document.getElementById("game-container");
 
+    /**for (let value of game) {
+        const t = document.createElement("p");
+        t.textContent = `${game.key} : ${game.value}`;
+        c.appendChild(t);
+    }*/
+
     const t = document.createElement("h1");
     t.textContent = `Game ${game.id}`;
     c.appendChild(t);
