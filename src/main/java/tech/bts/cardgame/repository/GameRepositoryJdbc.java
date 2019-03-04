@@ -10,7 +10,6 @@ import java.sql.*;
 import java.util.*;
 
 import static org.apache.tomcat.util.buf.StringUtils.join;
-import static tech.bts.cardgame.util.StringUtil.joinString;
 
 @Repository
 public class GameRepositoryJdbc {
