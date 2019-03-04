@@ -6,7 +6,7 @@ import java.util.List;
 
 public class StringUtil {
 
-    public static String join(Collection<String> texts, String separator) {
+    public static String joinString(List<String> texts, String separator) {
         String result = "";
         List<String> strings = new ArrayList<>(texts);
 

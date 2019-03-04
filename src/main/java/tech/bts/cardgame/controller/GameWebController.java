@@ -48,7 +48,7 @@ public class GameWebController {
 
         //String result = template.apply(map);
         //if (game.getState() == Game.State.OPEN) {
-        //    result += "<button onclick= location.href=\"/games/" + game.getId() + "/join\">Join this game</button>";
+        //    result += "<button onclick= location.href=\"/games/" + game.getId() + "/joinString\">Join this game</button>";
         //}
 
         return template.apply(map);

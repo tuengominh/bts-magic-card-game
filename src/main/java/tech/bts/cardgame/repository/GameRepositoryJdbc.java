@@ -6,9 +6,11 @@ import tech.bts.cardgame.model.Game;
 import tech.bts.cardgame.util.DataSourceUtil;
 
 import javax.sql.DataSource;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.*;
+
+import static org.apache.tomcat.util.buf.StringUtils.join;
+import static tech.bts.cardgame.util.StringUtil.joinString;
 
 @Repository
 public class GameRepositoryJdbc {
@@ -19,15 +21,26 @@ public class GameRepositoryJdbc {
         this.dataSource = DataSourceUtil.getDataSourceInPath();
     }
 
-    public void create(Game game) {
-        throw new RuntimeException("Not implemented yet"); // TODO: insert game into database
+    public void create(Game game) throws SQLException {
+        //throw new RuntimeException("Not implemented yet"); // TODO: insert game into database
+
+        Connection connection = dataSource.getConnection();
+        String state = game.getState().toString();
+        String players = join(game.getPlayerNames(),',');
+
+        PreparedStatement statement = connection.prepareStatement("insert into games(state, players) values(?,?)");
+        statement.setString(1, state);
+        statement.setString(2, players);
+        statement.executeUpdate();
     }
 
     public Game getById(long id) {
 
         try {
 
-            ResultSet rs = dataSource.getConnection().createStatement().executeQuery("select * from games where id = " + id);
+            Connection connection = dataSource.getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("select * from games where id = " + id);
 
             Game game = null;
 
@@ -36,8 +49,8 @@ public class GameRepositoryJdbc {
             }
 
             rs.close();
-            dataSource.getConnection().createStatement().close();
-            dataSource.getConnection().close();
+            statement.close();
+            connection.close();
 
             return game;
 
@@ -50,7 +63,9 @@ public class GameRepositoryJdbc {
 
         try {
 
-            ResultSet rs = dataSource.getConnection().createStatement().executeQuery("select * from games");
+            Connection connection = dataSource.getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("select * from games");
 
             List<Game> games = new ArrayList<>();
 
@@ -61,8 +76,8 @@ public class GameRepositoryJdbc {
             }
 
             rs.close();
-            dataSource.getConnection().createStatement().close();
-            dataSource.getConnection().close();
+            statement.close();
+            connection.close();
 
             return games;
 
