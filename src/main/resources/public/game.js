@@ -1,5 +1,7 @@
+console.log("Game js loaded");
+
 const urlParams = new URLSearchParams(window.location.search);
-const gameId = urlParams.get('gameId');
+const gameId = urlParams.get('id');
 
 axios.get("/api/games/" + gameId)
     .then(function(response) {
@@ -13,30 +15,11 @@ axios.get("/api/games/" + gameId)
 
 function displayGame(game) {
 
-    let c = document.getElementById("game-container");
+    let gameContainer = document.getElementById("game-container");
 
-    /**for (let value of game) {
-        const t = document.createElement("p");
-        t.textContent = `${game.key} : ${game.value}`;
-        c.appendChild(t);
-    }*/
-
-    const t = document.createElement("h1");
-    t.textContent = `Game ${game.id}`;
-    c.appendChild(t);
-
-    const p = document.createElement("li");
-    p.textContent = `State: ${game.state}`;
-    c.appendChild(p);
-
-    const p2 = document.createElement("li");
-    p2.textContent = `Players: ${game.playerNames.toString()}`;
-    c.appendChild(p2);
-
-    //const a = document.createElement("a");
-    //a.appendChild(document.createTextNode("Go back to game list"));
-    //a.href = "http://localhost:8080/games.html";
-    //c.appendChild(a);
+    const p = document.createElement("p");
+    p.textContent = `Game ${game.id} is ${game.state}, and players are ${game.playerNames}`;
+    gameContainer.appendChild(p);
 }
 
 function displayError(error) {
@@ -47,6 +30,3 @@ function displayError(error) {
     p.textContent = `The game could not be loaded`;
     gameContainer.appendChild(p);
 }
-
-
-

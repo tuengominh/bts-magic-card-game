@@ -1,22 +1,23 @@
-//a promise is an object that will contain the data in a while
+console.log("Games js loaded");
 
-fetch("http://localhost:8080/api/games")
-    .then(x => x.json())//convert the response to JSON
-    .then(function(games){ //the parameter is the one contains data that the end-point sent
-    //this anonymous function will be called when the data comes after a while
-    console.log(games);
+//const gamesPromise = fetch("/api/games");
+const gamesPromise = axios.get("/api/games");
 
-    let c = document.getElementById("container");
-    for (let game of games) {
-        const p = document.createElement("li");
-        p.textContent = `Game ${game.id} is ${game.state}`;
+gamesPromise
+//.then(x => x.json()) // this is necessary when using fetch
+    .then(function(response) {
 
-        const a = document.createElement("a");
-        a.appendChild(document.createTextNode("Go to this game"));
-        a.href = "http://localhost:8080/game.html?gameId=" + game.id;
+        const games = response.data; // In axios you get a response object with the data inside
 
-        c.appendChild(p);
-        c.appendChild(a);
-    }
-});
+        // This function will be called when the data comes
+        // At this point, games contains the data that the end-point sends (the list of games)
 
+        let gamesContainer = document.getElementById("games-container");
+
+        for (let game of games) {
+
+            const p = document.createElement("p");
+            p.textContent = `Game ${game.id} is ${game.state}`;
+            gamesContainer.appendChild(p);
+        }
+    });
