@@ -7,17 +7,20 @@ import tech.bts.cardgame.model.Deck;
 import tech.bts.cardgame.model.Game;
 import tech.bts.cardgame.model.GameUser;
 import tech.bts.cardgame.repository.GameRepository;
+import tech.bts.cardgame.repository.GameRepositoryJdbc;
 
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
 
 @Service
 public class GameService {
 
-    private GameRepository gameRepo;
+    private GameRepositoryJdbc gameRepo;
+    //private GameRepository gameRepo;
 
     @Autowired
-    public GameService(GameRepository gameRepo) {
+    public GameService(GameRepositoryJdbc gameRepo) {
         this.gameRepo = gameRepo;
     }
 
@@ -33,23 +36,23 @@ public class GameService {
         return game;
     }
 
-    public void joinGame(GameUser gameUser) {
+    public void joinGame(GameUser gameUser){
 
         Game game = gameRepo.getById(gameUser.getGameId());
         game.join(gameUser.getUsername());
     }
 
-    public Card pickCard(GameUser gameUser) {
+    public Card pickCard(GameUser gameUser){
 
         Game game = gameRepo.getById(gameUser.getGameId());
         return game.pickCard(gameUser.getUsername());
     }
 
-    public List<Game> getGames() {
+    public List<Game> getGames(){
         return gameRepo.getAll();
     }
 
-    public Game getGameById(long gameId) {
+    public Game getGameById(long gameId){
         return gameRepo.getById(gameId);
     }
 }

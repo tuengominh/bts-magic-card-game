@@ -15,6 +15,7 @@ import tech.bts.cardgame.util.HandlebarsUtil;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 

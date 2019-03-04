@@ -7,6 +7,7 @@ import tech.bts.cardgame.model.Game;
 import tech.bts.cardgame.model.GameUser;
 import tech.bts.cardgame.service.GameService;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -21,12 +22,12 @@ public class GameAPIController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Game> getGames() {
+    public List<Game> getGames(){
         return gameService.getGames();
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/{gameId}")
-    public Game getGameById(@PathVariable long gameId) {
+    public Game getGameById(@PathVariable long gameId){
         return gameService.getGameById(gameId);
     }
 
@@ -37,13 +38,13 @@ public class GameAPIController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, path = "/{gameId}/join")
-    public void joinGame(@RequestBody GameUser gameUser, @PathVariable("gameId") long gameId) {
+    public void joinGame(@RequestBody GameUser gameUser, @PathVariable("gameId") long gameId){
         gameUser.setGameId(gameId);
         gameService.joinGame(gameUser);
     }
 
     @RequestMapping(method = RequestMethod.PUT, path = "/{gameId}/pick")
-    public Card pickCard(@RequestBody GameUser gameUser, @PathVariable("gameId") long gameId) {
+    public Card pickCard(@RequestBody GameUser gameUser, @PathVariable("gameId") long gameId){
         gameUser.setGameId(gameId);
         return gameService.pickCard(gameUser);
     }

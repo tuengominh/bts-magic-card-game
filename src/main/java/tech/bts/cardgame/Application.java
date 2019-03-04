@@ -16,6 +16,7 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 
+    /*
     @Bean
     public CommandLineRunner createDummyData(GameService gameService) {
         return (args) -> {
@@ -27,5 +28,5 @@ public class Application {
             gameService.joinGame(new GameUser(g2.getId(),"dog"));
             gameService.joinGame(new GameUser(g2.getId(),"cat"));
         };
-    }
+    } */
 }

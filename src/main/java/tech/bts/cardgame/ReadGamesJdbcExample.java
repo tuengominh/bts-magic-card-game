@@ -1,5 +1,7 @@
 package tech.bts.cardgame;
 
+import tech.bts.cardgame.model.Deck;
+import tech.bts.cardgame.model.Game;
 import tech.bts.cardgame.repository.GameRepositoryJdbc;
 import tech.bts.cardgame.util.DataSourceUtil;
 
@@ -29,6 +31,7 @@ public class ReadGamesJdbcExample {
             String players = rs.getString("players");
 
             System.out.println(id + ", " + state + ", " + players);
+
         }
 
         rs.close();
