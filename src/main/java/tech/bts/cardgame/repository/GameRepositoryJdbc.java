@@ -20,17 +20,22 @@ public class GameRepositoryJdbc {
         this.dataSource = DataSourceUtil.getDataSourceInPath();
     }
 
-    public void create(Game game) throws SQLException {
-        //throw new RuntimeException("Not implemented yet"); // TODO: insert game into database
+    public void create(Game game){
 
-        Connection connection = dataSource.getConnection();
-        String state = game.getState().toString();
-        String players = join(game.getPlayerNames(),',');
+        try {
+            Connection connection = dataSource.getConnection();
+            String state = game.getState().toString();
+            String players = join(game.getPlayerNames(),',');
 
-        PreparedStatement statement = connection.prepareStatement("insert into games(state, players) values(?,?)");
-        statement.setString(1, state);
-        statement.setString(2, players);
-        statement.executeUpdate();
+            PreparedStatement statement = connection.prepareStatement("insert into games(state, players) values(?,?)");
+            statement.setString(1, state);
+            statement.setString(2, players);
+            statement.executeUpdate();
+
+        } catch (Exception e) {
+            throw new RuntimeException("Error creating the game", e);
+        }
+
     }
 
     public Game getById(long id) {
@@ -54,7 +59,7 @@ public class GameRepositoryJdbc {
             return game;
 
         } catch (Exception e) {
-            throw new RuntimeException("Error getting the games", e);
+            throw new RuntimeException("Error getting the game", e);
         }
     }
 
