@@ -24,13 +24,14 @@ public class GameRepositoryJdbc {
 
         try {
             Connection connection = dataSource.getConnection();
-            String state = game.getState().toString();
-            String players = join(game.getPlayerNames(),',');
 
-            PreparedStatement statement = connection.prepareStatement("insert into games(state, players) values(?,?)");
-            statement.setString(1, state);
-            statement.setString(2, players);
-            statement.executeUpdate();
+            PreparedStatement preparedStatement = connection.prepareStatement("insert into games(state, players) values(?,?)");
+            preparedStatement.setString(1, game.getState().toString());
+            preparedStatement.setString(2, join(game.getPlayerNames(),','));
+            preparedStatement.executeUpdate();
+
+            preparedStatement.close();
+            connection.close();
 
         } catch (Exception e) {
             throw new RuntimeException("Error creating the game", e);
