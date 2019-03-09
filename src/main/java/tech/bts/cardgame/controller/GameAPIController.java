@@ -7,7 +7,6 @@ import tech.bts.cardgame.model.Game;
 import tech.bts.cardgame.model.GameUser;
 import tech.bts.cardgame.service.GameService;
 
-import java.sql.SQLException;
 import java.util.List;
 
 @RestController

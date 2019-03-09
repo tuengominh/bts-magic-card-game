@@ -7,6 +7,6 @@
 const App = (props) => (
     <div>
         <GameList title="Game List"/>
-        <Article title="Some title" text="This is the text in the paragraph" />
+       /** <Article title="Some title" text="This is the text in the paragraph" /> */
     </div>
 );

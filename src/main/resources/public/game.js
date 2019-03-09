@@ -1,5 +1,3 @@
-console.log("Game js loaded");
-
 const urlParams = new URLSearchParams(window.location.search);
 const gameId = urlParams.get('id');
 
@@ -30,3 +28,4 @@ function displayError(error) {
     p.textContent = `The game could not be loaded`;
     gameContainer.appendChild(p);
 }
+
