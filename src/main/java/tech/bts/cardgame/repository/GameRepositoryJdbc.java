@@ -47,7 +47,7 @@ public class GameRepositoryJdbc {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("select * from games where id = " + id);
 
-            Game game = null;
+            Game game = new Game(new Deck());
 
             if (rs.next()) {
                 game = getGame(rs);

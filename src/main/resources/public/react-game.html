@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8" />
-    <title>React Example</title>
+    <title>React Game</title>
 
     <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
@@ -10,11 +10,12 @@
     <!-- Don't use this in production: -->
     <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
 
-    <!-- Add your components here -->
+    <!-- Add your components here
 
     <script type="text/babel" src="/components/Title.js"></script>
     <script type="text/babel" src="/components/Link.js"></script>
-    <script type="text/babel" src="/components/Article.js"></script>
+    <script type="text/babel" src="/components/Article.js"></script> -->
+
     <script type="text/babel" src="/components/GamesList.js"></script>
     <script type="text/babel" src="/components/App.js"></script>
 
@@ -27,9 +28,12 @@
 <script type="text/babel">
     // Here we tell React to write the component App in the container with id "root".
     ReactDOM.render(
-        <App/>,
+       <App/>,
         document.getElementById('root')
     );
 </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.17.0/axios.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 </body>
 </html>

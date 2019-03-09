@@ -1,4 +1,6 @@
-class GamesList extends React.Component {
+import React, { Component } from 'react';
+
+class GameList extends Component {
 
     constructor(props) {
         super(props);
@@ -25,7 +27,7 @@ class GamesList extends React.Component {
             });
     }
 
-    addGame() {
+    createGame() {
 
         axios.post("/api/games").then(response => {
             this.fetchAndDisplayGames();
@@ -36,7 +38,7 @@ class GamesList extends React.Component {
         return (
             <div>
                 <Title text={this.props.title} />
-                <p><button onClick={() => this.addGame()}>Add game</button></p>
+                <p><button onClick={() => this.createGame()}>Create game</button></p>
                 <ul>
                     {this.state.games.map(game => (
                         <li key={game.id}><a href={"/games/" + game.id}>Game {game.id}</a> is {game.state}</li>
@@ -46,3 +48,5 @@ class GamesList extends React.Component {
         );
     }
 }
+
+export default GameList;
