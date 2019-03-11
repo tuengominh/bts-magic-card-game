@@ -14,7 +14,7 @@ import java.util.*;
 public class GameRepositoryJdbc {
 
     //private DataSource dataSource;
-    private JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate; //template pattern (other patterns: observer, builder, iteration, .etc)
 
     public GameRepositoryJdbc() {
         //this.dataSource = DataSourceUtil.getDataSourceInPath();
