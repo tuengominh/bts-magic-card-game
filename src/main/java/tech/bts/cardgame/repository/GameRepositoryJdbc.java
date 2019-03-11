@@ -1,5 +1,7 @@
 package tech.bts.cardgame.repository;
 
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import tech.bts.cardgame.model.Deck;
 import tech.bts.cardgame.model.Game;
@@ -9,20 +11,24 @@ import javax.sql.DataSource;
 import java.sql.*;
 import java.util.*;
 
-import static org.apache.tomcat.util.buf.StringUtils.join;
-
 @Repository
 public class GameRepositoryJdbc {
 
     private DataSource dataSource;
+    private JdbcTemplate jdbcTemplate;
 
     public GameRepositoryJdbc() {
         this.dataSource = DataSourceUtil.getDataSourceInPath();
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     public void create(Game game){
 
-        try {
+        jdbcTemplate.update("insert into games (state, players)" +
+                " values ('" + game.getState() + "', NULL)");
+
+        /**try {
+
             Connection connection = dataSource.getConnection();
 
             PreparedStatement preparedStatement = connection.prepareStatement("insert into games(state, players) values(?,?)");
@@ -35,41 +41,40 @@ public class GameRepositoryJdbc {
 
         } catch (Exception e) {
             throw new RuntimeException("Error creating the game", e);
-        }
-
+        }*/
     }
 
     public Game getById(long id) {
 
-        try {
+        RowMapper<Game> rowMapper = (rs, rowNum) -> getGame(rs);
 
-            Connection connection = dataSource.getConnection();
-            Statement statement = connection.createStatement();
+        return jdbcTemplate.queryForObject("select * from games where id = " + id, rowMapper);
+
+        /**return applyStatement((statement -> {
+
             ResultSet rs = statement.executeQuery("select * from games where id = " + id);
 
-            Game game = new Game(new Deck());
+            Game game = null;
 
             if (rs.next()) {
                 game = getGame(rs);
             }
 
             rs.close();
-            statement.close();
-            connection.close();
 
             return game;
 
-        } catch (Exception e) {
-            throw new RuntimeException("Error getting the game", e);
-        }
+        }));*/
     }
 
     public List<Game> getAll() {
 
-        try {
+        RowMapper<Game> rowMapper = (rs, rowNum) -> getGame(rs);
 
-            Connection connection = dataSource.getConnection();
-            Statement statement = connection.createStatement();
+        return jdbcTemplate.query("select * from games", rowMapper);
+
+        /**return applyStatement((statement -> {
+
             ResultSet rs = statement.executeQuery("select * from games");
 
             List<Game> games = new ArrayList<>();
@@ -81,15 +86,10 @@ public class GameRepositoryJdbc {
             }
 
             rs.close();
-            statement.close();
-            connection.close();
 
             return games;
 
-
-        } catch (Exception e) {
-            throw new RuntimeException("Error getting the games", e);
-        }
+        }));*/
     }
 
     private Game getGame(ResultSet rs) throws SQLException {
@@ -111,4 +111,30 @@ public class GameRepositoryJdbc {
 
         return game;
     }
+
+    /**private interface Function<P, R> {
+        R apply(P t) throws Exception;
+    }
+
+    private <T> T applyStatement(Function<Statement,T> executeStatement){
+
+        //Function interface -> takes an argument and returns a value
+        //Supplier interface -> doesn't take an argument and returns a value
+        //Consumer interface -> take an argument and doesn't return a value
+
+        try {
+            Connection connection = dataSource.getConnection();
+            Statement statement = connection.createStatement();
+
+            T result = executeStatement.apply(statement);
+
+            statement.close();
+            connection.close();
+
+            return result;
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }*/
 }
