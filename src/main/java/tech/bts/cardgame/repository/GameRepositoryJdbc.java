@@ -7,19 +7,18 @@ import tech.bts.cardgame.model.Deck;
 import tech.bts.cardgame.model.Game;
 import tech.bts.cardgame.util.DataSourceUtil;
 
-import javax.sql.DataSource;
 import java.sql.*;
 import java.util.*;
 
 @Repository
 public class GameRepositoryJdbc {
 
-    private DataSource dataSource;
+    //private DataSource dataSource;
     private JdbcTemplate jdbcTemplate;
 
     public GameRepositoryJdbc() {
-        this.dataSource = DataSourceUtil.getDataSourceInPath();
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
+        //this.dataSource = DataSourceUtil.getDataSourceInPath();
+        this.jdbcTemplate = new JdbcTemplate(DataSourceUtil.getDataSourceInPath());
     }
 
     public void create(Game game){
