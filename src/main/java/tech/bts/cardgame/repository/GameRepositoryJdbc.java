@@ -27,7 +27,7 @@ public class GameRepositoryJdbc {
 
             PreparedStatement preparedStatement = connection.prepareStatement("insert into games(state, players) values(?,?)");
             preparedStatement.setString(1, game.getState().toString());
-            preparedStatement.setString(2, join(game.getPlayerNames(),','));
+            preparedStatement.setString(2, join(game.getPlayerNames(),',')); //NULL in this case
             preparedStatement.executeUpdate();
 
             preparedStatement.close();
