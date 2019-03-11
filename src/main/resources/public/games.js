@@ -32,3 +32,7 @@ function createGame() {
         });
     window.location.reload();
 }
+
+//document.querySelector("#id_name")
+//document.querySelector(".class_name")
+//document.querySelector("tag_name") : <div>, <p>, <a>
