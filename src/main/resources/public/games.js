@@ -16,7 +16,11 @@ function displayGames() {
             for (let game of games) {
 
                 const p = document.createElement("p");
-                p.textContent = `Game ${game.id} is ${game.state}`;
+                const a = document.createElement("a");
+                a.href = "/api/games/${game.id}";
+                a.innerHTML = "link";
+                p.innerHTML = `Game ${game.id} is ${game.state}`;
+                p.appendChild(a);
                 gamesContainer.appendChild(p);
             }
         });
@@ -30,7 +34,8 @@ function createGame() {
         .catch(function (error) {
             console.log(error);
         });
-    window.location.reload();
+    location.reload();
+    //location.href = "/games.html";
 }
 
 //document.querySelector("#id_name")

@@ -18,6 +18,22 @@ function displayGame(game) {
     const p = document.createElement("p");
     p.textContent = `Game ${game.id} is ${game.state}, and players are ${game.playerNames}`;
     gameContainer.appendChild(p);
+
+    if (game.state == "OPEN") {
+
+        const input = document.createElement("input");
+        input.type = "text";
+        input.name = "username";
+
+        const button = document.createElement("button");
+        button.innerHTML = "Join this game";
+        button.addEventListener("click", function(){
+            updateGame(input.value);
+        });
+
+        gameContainer.appendChild(input);
+        gameContainer.appendChild(button);
+    }
 }
 
 function displayError(error) {
@@ -29,3 +45,13 @@ function displayError(error) {
     gameContainer.appendChild(p);
 }
 
+function updateGame(username) {
+    axios.put("/api/games/" + ${game.id} + "/join", {username})
+        .then(function (response) {
+            console.log(response.data);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    location.reload();
+}
