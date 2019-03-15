@@ -31,7 +31,7 @@ public class GameService {
         deck.shuffle();
 
         Game game = new Game(deck);
-        gameRepo.create(game);
+        gameRepo.createOrUpdate(game);
 
         return game;
     }
@@ -40,6 +40,7 @@ public class GameService {
 
         Game game = gameRepo.getById(gameUser.getGameId());
         game.join(gameUser.getUsername());
+        gameRepo.createOrUpdate(game);
     }
 
     public Card pickCard(GameUser gameUser){

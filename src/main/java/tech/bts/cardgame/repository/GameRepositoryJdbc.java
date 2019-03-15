@@ -10,11 +10,16 @@ import tech.bts.cardgame.util.DataSourceUtil;
 import java.sql.*;
 import java.util.*;
 
+import static org.apache.tomcat.util.buf.StringUtils.join;
+
 @Repository
 public class GameRepositoryJdbc {
 
     //private DataSource dataSource;
     private JdbcTemplate jdbcTemplate; //template pattern (other patterns: observer, builder, iteration, .etc)
+
+    final String INSERT_STATEMENT = "insert into games (state, players) values (?, ?)";
+    final String UPDATE_STATEMENT = "update games set state = ?, players = ? where id = ?";
 
     public GameRepositoryJdbc() {
         //this.dataSource = DataSourceUtil.getDataSourceInPath();
@@ -22,9 +27,7 @@ public class GameRepositoryJdbc {
     }
 
     public void create(Game game){
-
-        jdbcTemplate.update("insert into games (state, players)" +
-                " values ('" + game.getState() + "', NULL)");
+        jdbcTemplate.update(INSERT_STATEMENT, game.getState(), join(game.getPlayerNames(),','));
 
         /**try {
 
@@ -43,51 +46,48 @@ public class GameRepositoryJdbc {
         }*/
     }
 
+    public void update(Game game){
+        jdbcTemplate.update(UPDATE_STATEMENT, game.getState(), join(game.getPlayerNames(),','), game.getId());
+    }
+
+    public void createOrUpdate(Game game) {
+
+        Game game1 = getById(game.getId());
+        if(game1 != null) {
+            update(game);
+        } else {
+            create(game);
+        }
+    }
+
     public Game getById(long id) {
-
-        RowMapper<Game> rowMapper = (rs, rowNum) -> getGame(rs);
-
+        RowMapper<Game> rowMapper = (rs1, rowNum) -> getGame(rs1);
         return jdbcTemplate.queryForObject("select * from games where id = " + id, rowMapper);
 
         /**return applyStatement((statement -> {
-
             ResultSet rs = statement.executeQuery("select * from games where id = " + id);
-
             Game game = null;
-
             if (rs.next()) {
                 game = getGame(rs);
             }
-
             rs.close();
-
             return game;
-
         }));*/
     }
 
     public List<Game> getAll() {
 
-        RowMapper<Game> rowMapper = (rs, rowNum) -> getGame(rs);
-
-        return jdbcTemplate.query("select * from games", rowMapper);
+        return jdbcTemplate.query("select * from games", (rs1, rowNum) -> getGame(rs1));
 
         /**return applyStatement((statement -> {
-
             ResultSet rs = statement.executeQuery("select * from games");
-
             List<Game> games = new ArrayList<>();
-
             while (rs.next()) {
-
                 Game game = getGame(rs);
                 games.add(game);
             }
-
             rs.close();
-
             return games;
-
         }));*/
     }
 
