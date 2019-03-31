@@ -1,4 +1,7 @@
+#IntelliJ
 .idea/
 *.iml
 target/
-src/main/java/tech/bts/lambdas/
+
+#npm
+node_modules
