@@ -4,8 +4,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import tech.bts.cardgame.model.Game;
-import tech.bts.cardgame.model.GameUser;
 import tech.bts.cardgame.repository.GameRepository;
 import tech.bts.cardgame.service.GameService;
 

@@ -1,32 +1,5 @@
 package tech.bts.cardgame.repository;
 
-import org.springframework.stereotype.Repository;
-import tech.bts.cardgame.model.Game;
+public interface GameRepository {
 
-import java.util.*;
-
-@Repository
-public class GameRepository {
-
-    private Map<Long, Game> gameMap;
-    private long nextId;
-
-    public GameRepository() {
-        gameMap = new HashMap<>();
-        nextId = 0;
-    }
-
-    public void create(Game game) {
-        game.setId(nextId);
-        gameMap.put(nextId, game);
-        nextId++;
-    }
-
-    public Game getById(long id) {
-        return gameMap.get(id);
-    }
-
-    public List<Game> getAll() {
-        return new ArrayList<>(gameMap.values());
-    }
 }

@@ -9,8 +9,6 @@ import tech.bts.cardgame.model.GameUser;
 import tech.bts.cardgame.repository.GameRepository;
 import tech.bts.cardgame.repository.GameRepositoryJdbc;
 
-import java.sql.SQLException;
-import java.util.Collection;
 import java.util.List;
 
 @Service
